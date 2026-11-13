@@ -82,17 +82,17 @@ private struct StatusLine: View {
                     // Обратный отсчёт идёт каждую секунду силами системы, без обновлений виджета.
                     let end = entry.date.addingTimeInterval(d)
                     HStack(spacing: 3) {
-                        Text(e.mode == .charging ? "до полной" : "осталось")
+                        Text(e.mode == .charging ? String(localized: "until full") : String(localized: "left"))
                         Text(timerInterval: entry.date...end, countsDown: true)
                             .monospacedDigit()
                     }
                 } else if e.mode == .charging {
-                    Text(short ? "⚡︎ \(Fmt.shortDuration(e.duration))" : "до полной \(Fmt.duration(e.duration))")
+                    Text(short ? "⚡︎ \(Fmt.shortDuration(e.duration))" : String(localized: "full in \(Fmt.duration(e.duration))"))
                 } else {
-                    Text(short ? "≈ \(Fmt.shortDuration(e.duration))" : "хватит на ≈ \(Fmt.duration(e.duration))")
+                    Text(short ? "≈ \(Fmt.shortDuration(e.duration))" : String(localized: "lasts ≈ \(Fmt.duration(e.duration))"))
                 }
             case .idle:
-                Text("нет нагрузки")
+                Text("no load")
             }
         } else {
             Text("—")
@@ -109,7 +109,7 @@ struct MarstekWidgetView: View {
             if entry.snapshot == nil {
                 switch family {
                 case .accessoryCircular, .accessoryRectangular, .accessoryInline:
-                    Text(entry.configured ? "Wattleft: нет данных" : "Wattleft: настройте")
+                    Text(entry.configured ? String(localized: "Wattleft: no data") : String(localized: "Wattleft: set up"))
                 default:
                     NotConfiguredCard()
                 }
@@ -160,8 +160,8 @@ struct MarstekWidget: Widget {
         StaticConfiguration(kind: "MarstekBattery", provider: BatteryProvider()) { entry in
             MarstekWidgetView(entry: entry)
         }
-        .configurationDisplayName("Заряд станции")
-        .description("Заряд станции и на сколько его хватит при текущем потреблении.")
+        .configurationDisplayName("Battery Charge")
+        .description("Battery charge and how long it will last at the current load.")
         .supportedFamilies([.systemSmall, .systemMedium,
                             .accessoryCircular, .accessoryRectangular, .accessoryInline])
     }

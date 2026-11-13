@@ -14,39 +14,39 @@ struct SettingsView: View {
         NavigationStack {
             Form {
                 Section {
-                    Toggle("Демо-режим", isOn: $draft.demoMode)
+                    Toggle("Demo mode", isOn: $draft.demoMode)
                 } footer: {
-                    Text("Встроенная имитация станции — чтобы посмотреть приложение без Marstek. Выключите, чтобы подключить свою.")
+                    Text("A built-in simulated station, to try the app without a Marstek battery. Turn it off to connect your own.")
                 }
 
                 Section {
-                    TextField("IP-адрес, например 192.168.1.50", text: $draft.host)
+                    TextField("IP address, e.g. 192.168.1.50", text: $draft.host)
                         .keyboardType(.numbersAndPunctuation)
                         .textInputAutocapitalization(.never)
                         .autocorrectionDisabled()
-                    LabeledContent("Порт") {
+                    LabeledContent("Port") {
                         TextField("30000", value: $draft.port, format: .number.grouping(.never))
                             .keyboardType(.numberPad)
                             .multilineTextAlignment(.trailing)
                     }
                 } header: {
-                    Text("Станция")
+                    Text("Station")
                 } footer: {
-                    Text("Порт по умолчанию 30000. IP лучше закрепить за станцией в роутере.")
+                    Text("The default port is 30000. It’s best to reserve the station’s IP in your router.")
                 }
 
                 Section {
-                    Stepper("Резерв: \(Int(draft.reservePercent))%", value: $draft.reservePercent, in: 0...50, step: 1)
-                    Toggle("Инвертировать знак мощности сети", isOn: $draft.invertGridSign)
-                    LabeledContent("Ёмкость, Вт·ч") {
-                        TextField("авто", value: $draft.capacityOverrideWh, format: .number.grouping(.never))
+                    Stepper("Reserve: \(Int(draft.reservePercent))%", value: $draft.reservePercent, in: 0...50, step: 1)
+                    Toggle("Invert grid power sign", isOn: $draft.invertGridSign)
+                    LabeledContent("Capacity, Wh") {
+                        TextField("auto", value: $draft.capacityOverrideWh, format: .number.grouping(.never))
                             .keyboardType(.numberPad)
                             .multilineTextAlignment(.trailing)
                     }
                 } header: {
-                    Text("Расчёт")
+                    Text("Calculation")
                 } footer: {
-                    Text("Резерв — заряд, ниже которого станция не разряжается. Ёмкость 0 — брать из станции. Инвертируйте знак, если при разряде приложение показывает «заряжается».")
+                    Text("Reserve is the charge the station won’t discharge below. Capacity 0 means read it from the station. Invert the sign if the app shows “Charging” while the station discharges.")
                 }
 
                 Section {
@@ -61,12 +61,13 @@ struct SettingsView: View {
                                 testResult = err
                             } else {
                                 testOK = true
-                                testResult = "Связь есть — заряд \(SharedStore.lastSnapshot.map { "\(Int($0.socPercent))%" } ?? "")"
+                                let soc = SharedStore.lastSnapshot.map { "\(Int($0.socPercent))%" } ?? ""
+                                testResult = String(localized: "Connected — charge \(soc)")
                             }
                         }
                     } label: {
                         HStack {
-                            Text("Проверить связь")
+                            Text("Check connection")
                             if testing { Spacer(); ProgressView() }
                         }
                     }
@@ -75,20 +76,20 @@ struct SettingsView: View {
                             .font(.footnote)
                             .foregroundStyle(testOK ? Color.green : Color.orange)
                     }
-                    Button("Как подключить станцию", action: onShowGuide)
+                    Button("How to connect a station", action: onShowGuide)
                 }
             }
-            .navigationTitle("Настройки")
+            .navigationTitle("Settings")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .confirmationAction) {
-                    Button("Готово") {
+                    Button("Done") {
                         settings = draft
                         dismiss()
                     }
                 }
                 ToolbarItem(placement: .cancellationAction) {
-                    Button("Отмена") { dismiss() }
+                    Button("Cancel") { dismiss() }
                 }
             }
             .onAppear { draft = settings }

@@ -4,8 +4,8 @@ import WidgetKit
 /// Кнопка «обновить» на виджете и в Live Activity.
 /// `LiveActivityIntent` выполняется в процессе приложения, поэтому может обновить Live Activity.
 struct RefreshBatteryIntent: LiveActivityIntent {
-    static var title: LocalizedStringResource = "Обновить заряд станции"
-    static var description = IntentDescription("Запрашивает текущий заряд станции.")
+    static var title: LocalizedStringResource = "Refresh battery charge"
+    static var description = IntentDescription("Requests the current charge from the station.")
 
     func perform() async throws -> some IntentResult {
         if let snapshot = try? await BatteryService.refresh(timeout: 4) {

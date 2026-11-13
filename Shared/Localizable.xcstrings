@@ -1,0 +1,1558 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    " min" : {
+      "comment" : "Minutes unit after a big number",
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : " хв"
+          }
+        }
+      }
+    },
+    "—" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "—"
+          }
+        }
+      }
+    },
+    "·" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "·"
+          }
+        }
+      }
+    },
+    "%@ — %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ — %2$@"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ — %2$@"
+          }
+        }
+      }
+    },
+    "%@ · charge %lld%%" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ · charge %2$lld%%"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ · заряд %lld%%"
+          }
+        }
+      }
+    },
+    "%@ · data %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ · data %2$@"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ · дані %@"
+          }
+        }
+      }
+    },
+    "%@ ago" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ тому"
+          }
+        }
+      }
+    },
+    "%@ kW" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ кВт"
+          }
+        }
+      }
+    },
+    "%@ kWh" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ кВт·год"
+          }
+        }
+      }
+    },
+    "%@ of %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ of %2$@"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ з %@"
+          }
+        }
+      }
+    },
+    "%lld" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld"
+          }
+        }
+      }
+    },
+    "%lld d" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld д"
+          }
+        }
+      }
+    },
+    "%lld d %lld h" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$lld d %2$lld h"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld д %lld год"
+          }
+        }
+      }
+    },
+    "%lld h" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld год"
+          }
+        }
+      }
+    },
+    "%lld h %lld min" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$lld h %2$lld min"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld год %lld хв"
+          }
+        }
+      }
+    },
+    "%lld min" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld хв"
+          }
+        }
+      }
+    },
+    "%lld W" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld Вт"
+          }
+        }
+      }
+    },
+    "%lld Wh" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld Вт·год"
+          }
+        }
+      }
+    },
+    "%lld%%" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld%%"
+          }
+        }
+      }
+    },
+    "%lld%% · " : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld%% · "
+          }
+        }
+      }
+    },
+    "%lldd %lldh" : {
+      "comment" : "Short duration: days and hours",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$lldd %2$lldh"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lldд %lldгод"
+          }
+        }
+      }
+    },
+    "%lldh" : {
+      "comment" : "Short duration: hours",
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lldгод"
+          }
+        }
+      }
+    },
+    "%lldh %lldm" : {
+      "comment" : "Short duration: hours and minutes",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$lldh %2$lldm"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lldгод %lldхв"
+          }
+        }
+      }
+    },
+    "%lldm" : {
+      "comment" : "Short duration: minutes",
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lldхв"
+          }
+        }
+      }
+    },
+    "0:00" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "0:00"
+          }
+        }
+      }
+    },
+    "99+ h" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "99+ год"
+          }
+        }
+      }
+    },
+    "30000" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "30000"
+          }
+        }
+      }
+    },
+    "A built-in simulated station, to try the app without a Marstek battery. Turn it off to connect your own." : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вбудована імітація станції, щоб спробувати застосунок без Marstek. Вимкніть, щоб підключити свою."
+          }
+        }
+      }
+    },
+    "A charge chart and the moment the station reaches its reserve." : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Графік заряду й момент, коли станція дійде до резерву."
+          }
+        }
+      }
+    },
+    "A timer in the Dynamic Island and on the Lock Screen." : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Таймер у Dynamic Island і на заблокованому екрані."
+          }
+        }
+      }
+    },
+    "Appliance" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Прилад"
+          }
+        }
+      }
+    },
+    "auto" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "авто"
+          }
+        }
+      }
+    },
+    "Available above reserve" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Доступно до резерву"
+          }
+        }
+      }
+    },
+    "Based on the energy above the reserve. The inverter loses 5–10%, so the real time will be a bit shorter." : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Розраховано від енергії понад резерв. Інвертор втрачає 5–10%, тож реальний час буде трохи меншим."
+          }
+        }
+      }
+    },
+    "Battery Charge" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Заряд станції"
+          }
+        }
+      }
+    },
+    "Battery charge and how long it will last at the current load." : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Заряд станції і на скільки його вистачить за поточного споживання."
+          }
+        }
+      }
+    },
+    "Boiler" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Котел"
+          }
+        }
+      }
+    },
+    "Calculation" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Розрахунок"
+          }
+        }
+      }
+    },
+    "Cancel" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Скасувати"
+          }
+        }
+      }
+    },
+    "Capacity, Wh" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ємність, Вт·год"
+          }
+        }
+      }
+    },
+    "Charge" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Заряд"
+          }
+        }
+      }
+    },
+    "Charge and forecast" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Заряд і прогноз"
+          }
+        }
+      }
+    },
+    "Charge and time left on the Lock Screen and in the Dynamic Island. The timer keeps counting even when the app is closed." : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Заряд і час, що лишився, на заблокованому екрані та в Dynamic Island. Таймер іде сам, навіть коли застосунок закрито."
+          }
+        }
+      }
+    },
+    "Charging" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Заряджання"
+          }
+        }
+      }
+    },
+    "charging %@" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "заряджання %@"
+          }
+        }
+      }
+    },
+    "Check connection" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Перевірити зв’язок"
+          }
+        }
+      }
+    },
+    "Check that your phone is on the same Wi‑Fi network, Open API is on, and Local Network access is allowed in iOS Settings → Wattleft." : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Перевірте, що телефон у тій самій Wi‑Fi мережі, Open API увімкнено, а доступ до локальної мережі дозволено в Параметрах iOS → Wattleft."
+          }
+        }
+      }
+    },
+    "Checking…" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Перевіряємо…"
+          }
+        }
+      }
+    },
+    "Connect" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Підключити"
+          }
+        }
+      }
+    },
+    "Connect station" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Підключити станцію"
+          }
+        }
+      }
+    },
+    "Connected" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Зв’язок є"
+          }
+        }
+      }
+    },
+    "Connected — charge %@" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Зв’язок є — заряд %@"
+          }
+        }
+      }
+    },
+    "Connecting to the station…" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Підключаємося до станції…"
+          }
+        }
+      }
+    },
+    "Connection" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Підключення"
+          }
+        }
+      }
+    },
+    "Consumption turned into hours and minutes." : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Споживання переводиться в години й хвилини."
+          }
+        }
+      }
+    },
+    "Couldn’t start the Live Activity: %@" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не вдалося запустити Live Activity: %@"
+          }
+        }
+      }
+    },
+    "Custom power" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Своя потужність"
+          }
+        }
+      }
+    },
+    "Dashboard" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Панель"
+          }
+        }
+      }
+    },
+    "data %@" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "дані %@"
+          }
+        }
+      }
+    },
+    "data is out of date" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "дані застаріли"
+          }
+        }
+      }
+    },
+    "Demo · Venus E" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Демо · Venus E"
+          }
+        }
+      }
+    },
+    "Demo mode" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Демо-режим"
+          }
+        }
+      }
+    },
+    "Demo mode — not real data" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Демо-режим — дані не справжні"
+          }
+        }
+      }
+    },
+    "Discharging" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Розряджання"
+          }
+        }
+      }
+    },
+    "Done" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Готово"
+          }
+        }
+      }
+    },
+    "Energy" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Енергія"
+          }
+        }
+      }
+    },
+    "Enter the station IP address in Settings." : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вкажіть IP-адресу станції в налаштуваннях."
+          }
+        }
+      }
+    },
+    "Find Open API — it may be called Local API." : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Знайдіть пункт Open API — він може називатися Local API."
+          }
+        }
+      }
+    },
+    "Find the IP address" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Знайдіть IP-адресу"
+          }
+        }
+      }
+    },
+    "forecast" : {
+      "comment" : "Chart legend",
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "прогноз"
+          }
+        }
+      }
+    },
+    "Fridge" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Холодильник"
+          }
+        }
+      }
+    },
+    "Full in " : {
+      "comment" : "Followed by a duration",
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Повна через "
+          }
+        }
+      }
+    },
+    "full in %@" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "повна через %@"
+          }
+        }
+      }
+    },
+    "h " : {
+      "comment" : "Hours unit after a big number",
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "год "
+          }
+        }
+      }
+    },
+    "Heater" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Обігрівач"
+          }
+        }
+      }
+    },
+    "history" : {
+      "comment" : "Chart legend",
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "було"
+          }
+        }
+      }
+    },
+    "How to connect a station" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Як підключити станцію"
+          }
+        }
+      }
+    },
+    "idle" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "простій"
+          }
+        }
+      }
+    },
+    "Idle" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Простій"
+          }
+        }
+      }
+    },
+    "In reserve " : {
+      "comment" : "Followed by energy, e.g. In reserve 3.2 kWh",
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "У запасі "
+          }
+        }
+      }
+    },
+    "In the device or network info." : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "В інформації про пристрій або мережу."
+          }
+        }
+      }
+    },
+    "In the Marstek app" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "У застосунку Marstek"
+          }
+        }
+      }
+    },
+    "In your router settings" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "У налаштуваннях роутера"
+          }
+        }
+      }
+    },
+    "Input" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Отримує"
+          }
+        }
+      }
+    },
+    "Invert grid power sign" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Інвертувати знак потужності мережі"
+          }
+        }
+      }
+    },
+    "iOS will ask for Local Network access — allow it, or the app can’t reach the station." : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iOS попросить доступ до локальної мережі — дозвольте його, інакше зв’язку не буде."
+          }
+        }
+      }
+    },
+    "IP address, e.g. 192.168.1.50" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "IP-адреса, наприклад 192.168.1.50"
+          }
+        }
+      }
+    },
+    "Keep port 30000 or note your own." : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Залиште порт 30000 або запам’ятайте свій."
+          }
+        }
+      }
+    },
+    "Kettle" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Чайник"
+          }
+        }
+      }
+    },
+    "Laptop" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ноутбук"
+          }
+        }
+      }
+    },
+    "Lasts" : {
+      "comment" : "Live Activity title above the countdown",
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вистачить на"
+          }
+        }
+      }
+    },
+    "Lasts " : {
+      "comment" : "Followed by a duration, e.g. Lasts 5 h 20 min",
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вистачить на "
+          }
+        }
+      }
+    },
+    "lasts ≈ %@" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "вистачить ≈ %@"
+          }
+        }
+      }
+    },
+    "Later" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Пізніше"
+          }
+        }
+      }
+    },
+    "left" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "лишилося"
+          }
+        }
+      }
+    },
+    "Live Activities are off: Settings → Wattleft → Live Activities." : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Live Activities вимкнено: Параметри → Wattleft → Live Activities."
+          }
+        }
+      }
+    },
+    "load %@" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "навантаження %@"
+          }
+        }
+      }
+    },
+    "Lock Screen" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Заблокований екран"
+          }
+        }
+      }
+    },
+    "Look for a name like VenusE-… in the device list." : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "У списку пристроїв шукайте назву на кшталт VenusE-…"
+          }
+        }
+      }
+    },
+    "m" : {
+      "comment" : "Minutes unit after a big number",
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "хв"
+          }
+        }
+      }
+    },
+    "Next" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Далі"
+          }
+        }
+      }
+    },
+    "no load" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "немає навантаження"
+          }
+        }
+      }
+    },
+    "No load" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Немає навантаження"
+          }
+        }
+      }
+    },
+    "No station connected" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Станцію не підключено"
+          }
+        }
+      }
+    },
+    "Now" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Зараз"
+          }
+        }
+      }
+    },
+    "Open the Marstek app" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Відкрийте застосунок Marstek"
+          }
+        }
+      }
+    },
+    "Open the station settings" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Відкрийте налаштування станції"
+          }
+        }
+      }
+    },
+    "Open Wattleft and enter your station IP" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Відкрийте Wattleft і вкажіть IP станції"
+          }
+        }
+      }
+    },
+    "Output" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Віддає"
+          }
+        }
+      }
+    },
+    "Port" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Порт"
+          }
+        }
+      }
+    },
+    "Power" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Потужність"
+          }
+        }
+      }
+    },
+    "Refresh battery charge" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Оновити заряд станції"
+          }
+        }
+      }
+    },
+    "Requests the current charge from the station." : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Запитує поточний заряд станції."
+          }
+        }
+      }
+    },
+    "Reserve" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Резерв"
+          }
+        }
+      }
+    },
+    "reserve %lld%%" : {
+      "comment" : "Chart label for the reserve threshold",
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "резерв %lld%%"
+          }
+        }
+      }
+    },
+    "Reserve is the charge the station won’t discharge below. Capacity 0 means read it from the station. Invert the sign if the app shows “Charging” while the station discharges." : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Резерв — заряд, нижче якого станція не розряджається. Ємність 0 — брати зі станції. Інвертуйте знак, якщо під час розряджання застосунок показує «Заряджання»."
+          }
+        }
+      }
+    },
+    "Reserve: %lld%%" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Резерв: %lld%%"
+          }
+        }
+      }
+    },
+    "Router" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Роутер"
+          }
+        }
+      }
+    },
+    "See demo" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Переглянути демо"
+          }
+        }
+      }
+    },
+    "Selected" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вибрано"
+          }
+        }
+      }
+    },
+    "Series" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ряд"
+          }
+        }
+      }
+    },
+    "Settings" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Налаштування"
+          }
+        }
+      }
+    },
+    "Shows your Marstek battery’s charge and how long it will last." : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Показує заряд станції Marstek і на скільки його ще вистачить."
+          }
+        }
+      }
+    },
+    "Station" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Станція"
+          }
+        }
+      }
+    },
+    "The default port is 30000. It’s best to reserve the station’s IP in your router." : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Порт за замовчуванням 30000. IP краще закріпити за станцією в роутері."
+          }
+        }
+      }
+    },
+    "The station did not respond. Check the IP and port, that your phone is on the same Wi‑Fi network, and that Open API is on in the Marstek app." : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Станція не відповіла. Перевірте IP і порт, що телефон у тій самій Wi‑Fi мережі і що Open API увімкнено в застосунку Marstek."
+          }
+        }
+      }
+    },
+    "The station returned an error: %@" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Станція повернула помилку: %@"
+          }
+        }
+      }
+    },
+    "Time" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Час"
+          }
+        }
+      }
+    },
+    "Time left" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Лишилося"
+          }
+        }
+      }
+    },
+    "Time, not percent" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Час, а не відсотки"
+          }
+        }
+      }
+    },
+    "Tip: reserve the IP for the station in your router (DHCP reservation). Otherwise the address may change after a router restart." : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Порада: закріпіть IP за станцією в роутері (резервування DHCP). Інакше адреса може змінитися після перезавантаження роутера."
+          }
+        }
+      }
+    },
+    "tomorrow %@" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "завтра %@"
+          }
+        }
+      }
+    },
+    "Turn it on" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Увімкніть його"
+          }
+        }
+      }
+    },
+    "Turn on Open API" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Увімкніть Open API"
+          }
+        }
+      }
+    },
+    "Turn on Open API in the Marstek app and enter the station IP address." : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Увімкніть Open API в застосунку Marstek і вкажіть IP-адресу станції."
+          }
+        }
+      }
+    },
+    "TV" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Телевізор"
+          }
+        }
+      }
+    },
+    "Unexpected response from the station: %@" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Незрозуміла відповідь станції: %@"
+          }
+        }
+      }
+    },
+    "until %@" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "до %@"
+          }
+        }
+      }
+    },
+    "until full" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "до повної"
+          }
+        }
+      }
+    },
+    "Until full" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "До повної"
+          }
+        }
+      }
+    },
+    "Updated" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Оновлено"
+          }
+        }
+      }
+    },
+    "Wattleft" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wattleft"
+          }
+        }
+      }
+    },
+    "Wattleft %lld%%" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wattleft %lld%%"
+          }
+        }
+      }
+    },
+    "Wattleft: no data" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wattleft: немає даних"
+          }
+        }
+      }
+    },
+    "Wattleft: set up" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wattleft: налаштуйте"
+          }
+        }
+      }
+    },
+    "What if I plug in" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Якщо підключити"
+          }
+        }
+      }
+    },
+    "Where to look" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Де подивитися"
+          }
+        }
+      }
+    },
+    "Works with Venus E, C, A and D. If the option is missing, update the station firmware in the Marstek app." : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Підходять Venus E, C, A і D. Якщо пункту немає — оновіть прошивку станції в застосунку Marstek."
+          }
+        }
+      }
+    },
+    "Your phone and the station must be on the same Wi‑Fi network." : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Телефон і станція мають бути в одній Wi‑Fi мережі."
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.0"
+}

@@ -23,22 +23,22 @@ struct WidgetContent {
 
         switch e?.mode {
         case .charging?:
-            icon = "bolt.fill"; title = "Заряд"; label = "До полной"
+            icon = "bolt.fill"; title = String(localized: "Charging"); label = String(localized: "Until full")
             value = Self.clock(e?.duration); duration = Self.split(e?.duration)
         case .discharging?:
-            icon = "bolt.batteryblock.fill"; title = "Разряд"; label = "Осталось"
+            icon = "bolt.batteryblock.fill"; title = String(localized: "Discharging"); label = String(localized: "Time left")
             value = Self.clock(e?.duration); duration = Self.split(e?.duration)
         default:
-            icon = "pause.fill"; title = "Простой"; label = "Заряд"
+            icon = "pause.fill"; title = String(localized: "Idle"); label = String(localized: "Charge")
             value = "\(Int(entrySoc.rounded()))%"; duration = nil
         }
 
         if isStale {
-            footnote = "данные устарели"
+            footnote = String(localized: "data is out of date")
         } else if let d = e?.duration, e?.mode != .idle {
             let end = date.addingTimeInterval(d)
             let time = end.formatted(date: .omitted, time: .shortened)
-            footnote = Calendar.current.isDateInToday(end) ? "до \(time)" : "завтра \(time)"
+            footnote = Calendar.current.isDateInToday(end) ? String(localized: "until \(time)") : String(localized: "tomorrow \(time)")
         } else {
             footnote = nil
         }
@@ -60,7 +60,7 @@ struct WidgetContent {
         guard let t, t.isFinite, t >= 0 else { return "—" }
         let minutes = Int((t / 60).rounded())
         let h = minutes / 60, m = minutes % 60
-        if h >= 100 { return "99+ ч" }
+        if h >= 100 { return String(localized: "99+ h") }
         return "\(h):" + String(format: "%02d", m)
     }
 }
@@ -154,12 +154,12 @@ struct BigValue: View {
                 let num = Font.system(size: size, weight: .semibold, design: .rounded)
                 if d.h > 0 {
                     Text("\(d.h)").font(num)
-                        + Text("ч ").font(unit).foregroundStyle(unitColor)
+                        + Text("h ", comment: "Hours unit after a big number").font(unit).foregroundStyle(unitColor)
                         + Text("\(d.m)").font(num)
-                        + Text("м").font(unit).foregroundStyle(unitColor)
+                        + Text("m", comment: "Minutes unit after a big number").font(unit).foregroundStyle(unitColor)
                 } else {
                     Text("\(d.m)").font(num)
-                        + Text(" мин").font(unit).foregroundStyle(unitColor)
+                        + Text(" min", comment: "Minutes unit after a big number").font(unit).foregroundStyle(unitColor)
                 }
             } else {
                 Text(content.value)
@@ -267,7 +267,7 @@ struct NotConfiguredCard: View {
         VStack(alignment: .leading, spacing: 6) {
             Image(systemName: "bolt.batteryblock").font(.title2)
             Spacer(minLength: 0)
-            Text("Откройте Wattleft и укажите IP станции")
+            Text("Open Wattleft and enter your station IP")
                 .font(.subheadline.weight(.medium))
                 .foregroundStyle(ink.secondary)
         }

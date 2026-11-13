@@ -4,8 +4,9 @@ import WidgetKit
 
 private typealias State = MarstekActivityAttributes.ContentState
 
-private func socColor(_ soc: Double) -> Color {
-    soc > 50 ? .green : soc > 20 ? .orange : .red
+/// Цвет состояния — та же палитра, что в приложении и виджетах (экран блокировки тёмный).
+private func socColor(_ s: State) -> Color {
+    BatteryPalette.colors(for: s.estimate.mode, dark: true)[2]
 }
 
 /// Оставшееся время, которое система отсчитывает сама, каждую секунду.
@@ -40,24 +41,24 @@ private struct LiveBar: View {
                 ProgressView(value: state.socPercent, total: 100)
             }
         }
-        .tint(socColor(state.socPercent))
+        .tint(socColor(state))
     }
 }
 
 private func modeTitle(_ state: State) -> String {
     switch state.estimate.mode {
-    case .discharging: return "Хватит на"
-    case .charging: return "До полной"
-    case .idle: return "Нет нагрузки"
+    case .discharging: return String(localized: "Lasts", comment: "Live Activity title above the countdown")
+    case .charging: return String(localized: "Until full")
+    case .idle: return String(localized: "No load")
     }
 }
 
 private func powerText(_ state: State) -> String {
     let e = state.estimate
     switch e.mode {
-    case .discharging: return "нагрузка \(Fmt.watts(e.powerW))"
-    case .charging: return "заряд \(Fmt.watts(e.powerW))"
-    case .idle: return "в простое"
+    case .discharging: return String(localized: "load \(Fmt.watts(e.powerW))")
+    case .charging: return String(localized: "charging \(Fmt.watts(e.powerW))")
+    case .idle: return String(localized: "idle")
     }
 }
 
@@ -68,10 +69,10 @@ private struct LockScreenView: View {
         let s = context.state
         HStack(spacing: 14) {
             ZStack {
-                Circle().stroke(socColor(s.socPercent).opacity(0.25), lineWidth: 6)
+                Circle().stroke(socColor(s).opacity(0.25), lineWidth: 6)
                 Circle()
                     .trim(from: 0, to: s.socPercent / 100)
-                    .stroke(socColor(s.socPercent), style: StrokeStyle(lineWidth: 6, lineCap: .round))
+                    .stroke(socColor(s), style: StrokeStyle(lineWidth: 6, lineCap: .round))
                     .rotationEffect(.degrees(-90))
                 Text("\(Int(s.socPercent.rounded()))%")
                     .font(.system(.callout, design: .rounded).weight(.bold))
@@ -91,7 +92,7 @@ private struct LockScreenView: View {
                 LiveCountdown(state: s)
                     .font(.title2.weight(.bold))
                 LiveBar(state: s)
-                Text("\(powerText(s)) · данные \(s.updated.formatted(date: .omitted, time: .shortened))")
+                Text(String(localized: "\(powerText(s)) · data \(s.updated.formatted(date: .omitted, time: .shortened))"))
                     .font(.caption2)
                     .foregroundStyle(context.isStale ? .orange : .secondary)
             }
@@ -114,7 +115,7 @@ struct MarstekLiveActivity: Widget {
                 DynamicIslandExpandedRegion(.leading) {
                     Label("\(Int(s.socPercent.rounded()))%", systemImage: "bolt.batteryblock.fill")
                         .font(.title3.weight(.bold))
-                        .foregroundStyle(socColor(s.socPercent))
+                        .foregroundStyle(socColor(s))
                 }
                 DynamicIslandExpandedRegion(.trailing) {
                     VStack(alignment: .trailing, spacing: 0) {
@@ -128,7 +129,7 @@ struct MarstekLiveActivity: Widget {
                         HStack {
                             Text(powerText(s))
                             Spacer()
-                            Text("данные \(s.updated.formatted(date: .omitted, time: .shortened))")
+                            Text(String(localized: "data \(s.updated.formatted(date: .omitted, time: .shortened))"))
                         }
                         .font(.caption2)
                         .foregroundStyle(.secondary)
@@ -136,7 +137,7 @@ struct MarstekLiveActivity: Widget {
                 }
             } compactLeading: {
                 HStack(spacing: 2) {
-                    Image(systemName: "bolt.fill").foregroundStyle(socColor(s.socPercent))
+                    Image(systemName: "bolt.fill").foregroundStyle(socColor(s))
                     Text("\(Int(s.socPercent.rounded()))%")
                 }
             } compactTrailing: {
@@ -145,13 +146,13 @@ struct MarstekLiveActivity: Widget {
                     .multilineTextAlignment(.trailing)
             } minimal: {
                 Text("\(Int(s.socPercent.rounded()))")
-                    .foregroundStyle(socColor(s.socPercent))
+                    .foregroundStyle(socColor(s))
             }
         }
     }
 }
 
-#Preview("Экран блокировки", as: .content, using: MarstekActivityAttributes(deviceName: "VenusE")) {
+#Preview("Lock Screen", as: .content, using: MarstekActivityAttributes(deviceName: "VenusE")) {
     MarstekLiveActivity()
 } contentStates: {
     State(socPercent: 76, capacityWh: 5120, netW: 410, updated: Date(), reservePercent: 10)

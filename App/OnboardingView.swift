@@ -22,7 +22,7 @@ struct OnboardingView: View {
             WelcomeStep(next: { path.append(.enableAPI) }, demo: startDemo)
                 .toolbar {
                     ToolbarItem(placement: .cancellationAction) {
-                        Button("Позже", action: onFinish)
+                        Button("Later", action: onFinish)
                     }
                 }
                 .navigationDestination(for: Step.self) { step in
@@ -39,9 +39,9 @@ struct OnboardingView: View {
 // MARK: - Bottom button
 
 private struct BottomButton: ViewModifier {
-    let title: String
+    let title: LocalizedStringKey
     var disabled = false
-    var secondary: (title: String, action: () -> Void)?
+    var secondary: (title: LocalizedStringKey, action: () -> Void)?
     let action: () -> Void
 
     func body(content: Content) -> some View {
@@ -67,8 +67,8 @@ private struct BottomButton: ViewModifier {
 }
 
 private extension View {
-    func bottomButton(_ title: String, disabled: Bool = false,
-                      secondary: (title: String, action: () -> Void)? = nil,
+    func bottomButton(_ title: LocalizedStringKey, disabled: Bool = false,
+                      secondary: (title: LocalizedStringKey, action: () -> Void)? = nil,
                       action: @escaping () -> Void) -> some View {
         modifier(BottomButton(title: title, disabled: disabled, secondary: secondary, action: action))
     }
@@ -90,7 +90,7 @@ private struct WelcomeStep: View {
                         .symbolRenderingMode(.hierarchical)
                     Text("Wattleft")
                         .font(.largeTitle.bold())
-                    Text("Показывает заряд станции Marstek и сколько он ещё продержится.")
+                    Text("Shows your Marstek battery’s charge and how long it will last.")
                         .font(.body)
                         .foregroundStyle(.secondary)
                         .multilineTextAlignment(.center)
@@ -99,28 +99,28 @@ private struct WelcomeStep: View {
 
                 VStack(alignment: .leading, spacing: 24) {
                     Feature(icon: "chart.xyaxis.line", color: .green,
-                            title: "Заряд и прогноз",
-                            text: "График заряда и момент, когда станция дойдёт до резерва.")
+                            title: "Charge and forecast",
+                            text: "A charge chart and the moment the station reaches its reserve.")
                     Feature(icon: "hourglass", color: .orange,
-                            title: "Время, а не проценты",
-                            text: "Потребление переводится в часы и минуты.")
+                            title: "Time, not percent",
+                            text: "Consumption turned into hours and minutes.")
                     Feature(icon: "lock.iphone", color: .blue,
-                            title: "Экран блокировки",
-                            text: "Таймер в Dynamic Island и на экране блокировки.")
+                            title: "Lock Screen",
+                            text: "A timer in the Dynamic Island and on the Lock Screen.")
                 }
             }
             .padding(.horizontal, 32)
             .padding(.bottom, 24)
         }
-        .bottomButton("Подключить станцию", secondary: ("Посмотреть демо", demo), action: next)
+        .bottomButton("Connect station", secondary: ("See demo", demo), action: next)
     }
 }
 
 private struct Feature: View {
     let icon: String
     let color: Color
-    let title: String
-    let text: String
+    let title: LocalizedStringKey
+    let text: LocalizedStringKey
 
     var body: some View {
         HStack(alignment: .top, spacing: 16) {
@@ -144,18 +144,18 @@ private struct EnableAPIStep: View {
     var body: some View {
         List {
             Section {
-                NumberedRow(n: 1, title: "Откройте приложение Marstek",
-                            text: "Телефон и станция должны быть в одной Wi-Fi сети.")
-                NumberedRow(n: 2, title: "Откройте настройки станции",
-                            text: "Найдите пункт Open API — он может называться Local API.")
-                NumberedRow(n: 3, title: "Включите его",
-                            text: "Порт оставьте 30000 или запомните свой.")
+                NumberedRow(n: 1, title: "Open the Marstek app",
+                            text: "Your phone and the station must be on the same Wi‑Fi network.")
+                NumberedRow(n: 2, title: "Open the station settings",
+                            text: "Find Open API — it may be called Local API.")
+                NumberedRow(n: 3, title: "Turn it on",
+                            text: "Keep port 30000 or note your own.")
             } footer: {
-                Text("Подходят Venus E, C, A и D. Если пункта нет — обновите прошивку станции в приложении Marstek.")
+                Text("Works with Venus E, C, A and D. If the option is missing, update the station firmware in the Marstek app.")
             }
         }
-        .navigationTitle("Включите Open API")
-        .bottomButton("Дальше", action: next)
+        .navigationTitle("Turn on Open API")
+        .bottomButton("Next", action: next)
     }
 }
 
@@ -167,33 +167,33 @@ private struct FindIPStep: View {
             Section {
                 Label {
                     VStack(alignment: .leading, spacing: 2) {
-                        Text("В приложении Marstek")
-                        Text("В информации об устройстве или сети.")
+                        Text("In the Marstek app")
+                        Text("In the device or network info.")
                             .font(.subheadline).foregroundStyle(.secondary)
                     }
                 } icon: { Image(systemName: "iphone") }
                 Label {
                     VStack(alignment: .leading, spacing: 2) {
-                        Text("В настройках роутера")
-                        Text("В списке устройств ищите имя вроде VenusE-…")
+                        Text("In your router settings")
+                        Text("Look for a name like VenusE-… in the device list.")
                             .font(.subheadline).foregroundStyle(.secondary)
                     }
                 } icon: { Image(systemName: "wifi.router") }
             } header: {
-                Text("Где посмотреть")
+                Text("Where to look")
             } footer: {
-                Text("Совет: закрепите IP за станцией в роутере (резервирование DHCP). Иначе адрес может смениться после перезагрузки роутера.")
+                Text("Tip: reserve the IP for the station in your router (DHCP reservation). Otherwise the address may change after a router restart.")
             }
         }
-        .navigationTitle("Найдите IP-адрес")
-        .bottomButton("Дальше", action: next)
+        .navigationTitle("Find the IP address")
+        .bottomButton("Next", action: next)
     }
 }
 
 private struct NumberedRow: View {
     let n: Int
-    let title: String
-    let text: String
+    let title: LocalizedStringKey
+    let text: LocalizedStringKey
 
     var body: some View {
         Label {
@@ -223,28 +223,28 @@ private struct ConnectStep: View {
     var body: some View {
         Form {
             Section {
-                TextField("IP-адрес, например 192.168.1.50", text: $host)
+                TextField("IP address, e.g. 192.168.1.50", text: $host)
                     .keyboardType(.numbersAndPunctuation)
                     .textInputAutocapitalization(.never)
                     .autocorrectionDisabled()
                     .focused($focused)
                     .onSubmit { Task { await test() } }
-                LabeledContent("Порт") {
+                LabeledContent("Port") {
                     TextField("30000", value: $port, format: .number.grouping(.never))
                         .keyboardType(.numberPad)
                         .multilineTextAlignment(.trailing)
                         .focused($focused)
                 }
             } footer: {
-                Text("iOS попросит доступ к локальной сети — разрешите его, иначе связи не будет.")
+                Text("iOS will ask for Local Network access — allow it, or the app can’t reach the station.")
             }
 
             if let ok {
                 Section {
                     Label {
                         VStack(alignment: .leading, spacing: 2) {
-                            Text("Связь есть")
-                            Text("\(ok.deviceName ?? "Станция") · заряд \(Int(ok.socPercent.rounded()))%")
+                            Text("Connected")
+                            Text("\(ok.deviceName ?? String(localized: "Station")) · charge \(Int(ok.socPercent.rounded()))%")
                                 .font(.subheadline).foregroundStyle(.secondary)
                         }
                     } icon: {
@@ -256,12 +256,12 @@ private struct ConnectStep: View {
                     Label(failure, systemImage: "exclamationmark.triangle.fill")
                         .foregroundStyle(.orange)
                 } footer: {
-                    Text("Проверьте: телефон в той же Wi-Fi сети, Open API включён, доступ к локальной сети разрешён в Настройках iOS → Wattleft.")
+                    Text("Check that your phone is on the same Wi‑Fi network, Open API is on, and Local Network access is allowed in iOS Settings → Wattleft.")
                 }
             }
         }
-        .navigationTitle("Подключение")
-        .bottomButton(ok == nil ? (testing ? "Проверяем…" : "Проверить связь") : "Готово",
+        .navigationTitle("Connection")
+        .bottomButton(ok == nil ? (testing ? "Checking…" : "Check connection") : "Done",
                       disabled: testing || host.trimmingCharacters(in: .whitespaces).isEmpty) {
             if ok != nil { onFinish() } else { Task { await test() } }
         }

@@ -179,6 +179,7 @@ enum BatteryService {
         let settings = SharedStore.settings
         guard settings.isConfigured else { throw MarstekError.notConfigured }
         if settings.demoMode {
+            if SharedStore.history.count < 10 { DemoStation.seedHistory(settings: settings) }
             let snapshot = DemoStation.snapshot(at: Date(), settings: settings)
             SharedStore.record(snapshot)
             return snapshot
@@ -203,28 +204,41 @@ enum Fmt {
     static func duration(_ t: TimeInterval?) -> String {
         guard let t, t.isFinite, t >= 0 else { return "—" }
         let minutes = Int((t / 60).rounded())
-        if minutes < 60 { return "\(minutes) мин" }
+        if minutes < 60 { return String(localized: "\(minutes) min") }
         let h = minutes / 60, m = minutes % 60
-        if h < 48 { return m == 0 ? "\(h) ч" : "\(h) ч \(m) мин" }
+        if h < 48 { return m == 0 ? String(localized: "\(h) h") : String(localized: "\(h) h \(m) min") }
         let d = h / 24, rh = h % 24
-        return rh == 0 ? "\(d) д" : "\(d) д \(rh) ч"
+        return rh == 0 ? String(localized: "\(d) d") : String(localized: "\(d) d \(rh) h")
     }
 
     static func shortDuration(_ t: TimeInterval?) -> String {
         guard let t, t.isFinite, t >= 0 else { return "—" }
         let minutes = Int((t / 60).rounded())
-        if minutes < 60 { return "\(minutes)м" }
+        if minutes < 60 { return String(localized: "\(minutes)m", comment: "Short duration: minutes") }
         let h = minutes / 60, m = minutes % 60
-        if h < 48 { return m == 0 ? "\(h)ч" : "\(h)ч \(m)м" }
-        return "\(h / 24)д \(h % 24)ч"
+        if h < 48 { return m == 0 ? String(localized: "\(h)h", comment: "Short duration: hours")
+                                  : String(localized: "\(h)h \(m)m", comment: "Short duration: hours and minutes") }
+        let d = h / 24, rh = h % 24
+        return String(localized: "\(d)d \(rh)h", comment: "Short duration: days and hours")
     }
 
     static func watts(_ w: Double) -> String {
-        w >= 1000 ? String(format: "%.2f кВт", w / 1000) : "\(Int(w.rounded())) Вт"
+        if w >= 1000 {
+            // 1500 → «1.5 kW», 2000 → «2 kW», 1234 → «1.23 kW».
+            let kw = (w / 1000).formatted(.number.precision(.fractionLength(0...2)))
+            return String(localized: "\(kw) kW")
+        }
+        let watts = Int(w.rounded())
+        return String(localized: "\(watts) W")
     }
 
     static func wattHours(_ wh: Double) -> String {
-        wh >= 1000 ? String(format: "%.2f кВт·ч", wh / 1000) : "\(Int(wh.rounded())) Вт·ч"
+        if wh >= 1000 {
+            let kwh = (wh / 1000).formatted(.number.precision(.fractionLength(2)))
+            return String(localized: "\(kwh) kWh")
+        }
+        let value = Int(wh.rounded())
+        return String(localized: "\(value) Wh")
     }
 }
 
@@ -232,30 +246,48 @@ enum Fmt {
 /// Состояние — чистая функция от времени, поэтому приложение и виджет показывают одно и то же.
 enum DemoStation {
     static let capacityWh: Double = 5120
-    /// Цикл 6 часов: 4,5 ч разряд с ~80 % до ~30 %, затем 1,5 ч заряд обратно.
-    static let cycle: TimeInterval = 6 * 3600
-    static let dischargeSpan: TimeInterval = 4.5 * 3600
+    /// Цикл 12 часов: 10 ч плавный разряд с ~95 % до ~20 %, затем 2 ч заряд обратно.
+    static let cycle: TimeInterval = 12 * 3600
+    static let dischargeSpan: TimeInterval = 10 * 3600
+
+    /// Для скриншотов: запуск с `-demoSoc 72` ставит текущий заряд демо около 72 % (только отладка).
+    static let timeShift: TimeInterval = {
+        #if DEBUG
+        // Читаем и из общего хранилища — чтобы виджет считал так же, как приложение.
+        let shared = SharedStore.defaults.double(forKey: "demoSoc")
+        let target = shared > 0 ? shared : UserDefaults.standard.double(forKey: "demoSoc")
+        guard target > 20, target < 95 else { return 0 }
+        let want = (95 - target) / 75 * dischargeSpan
+        let have = Date().timeIntervalSince1970.truncatingRemainder(dividingBy: cycle)
+        return want - have
+        #else
+        return 0
+        #endif
+    }()
 
     static func snapshot(at date: Date, settings: AppSettings) -> BatterySnapshot {
-        let t = date.timeIntervalSince1970.truncatingRemainder(dividingBy: cycle)
-        let wobble = sin(date.timeIntervalSince1970 / 45) * 60 + sin(date.timeIntervalSince1970 / 170) * 40
+        let now = date.timeIntervalSince1970 + timeShift
+        let t = now.truncatingRemainder(dividingBy: cycle)
+        let wobble = sin(now / 45) * 60 + sin(now / 170) * 40
+        // Нагрузка в течение дня «гуляет» — кривая разряда не идеально прямая.
+        let drift = sin(now / 2400) * 2.5
         let soc: Double
         var output = 0.0, input = 0.0
         if t < dischargeSpan {
-            soc = 80 - 50 * t / dischargeSpan
+            soc = 95 - 75 * t / dischargeSpan + drift
             output = 340 + wobble
         } else {
-            soc = 30 + 50 * (t - dischargeSpan) / (cycle - dischargeSpan)
+            soc = 20 + 75 * (t - dischargeSpan) / (cycle - dischargeSpan)
             input = 1200 + wobble * 2
         }
-        return BatterySnapshot(date: date, socPercent: soc, capacityWh: capacityWh,
-                               outputW: max(0, output), inputW: max(0, input), deviceName: "Демо · Venus E")
+        return BatterySnapshot(date: date, socPercent: min(100, max(0, soc)), capacityWh: capacityWh,
+                               outputW: max(0, output), inputW: max(0, input), deviceName: String(localized: "Demo · Venus E"))
     }
 
     /// История за последние часы — чтобы график в демо не был пустым.
     static func seedHistory(settings: AppSettings) {
         let now = Date()
-        for minutes in stride(from: 360, through: 1, by: -2) {
+        for minutes in stride(from: 160, through: 1, by: -2) {
             SharedStore.record(snapshot(at: now.addingTimeInterval(-Double(minutes) * 60), settings: settings))
         }
     }

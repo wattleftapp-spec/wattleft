@@ -92,14 +92,14 @@ final class BatteryViewModel {
         }
         guard let snapshot else { return }
         guard LiveActivityManager.isAllowed else {
-            liveActivityError = "Live Activities выключены: Настройки → Marstek → Live Activities."
+            liveActivityError = String(localized: "Live Activities are off: Settings → Wattleft → Live Activities.")
             return
         }
         do {
             try await LiveActivityManager.startOrUpdate(snapshot: snapshot, settings: settings)
             liveActivityError = nil
         } catch {
-            liveActivityError = "Не удалось запустить Live Activity: \(error.localizedDescription)"
+            liveActivityError = String(localized: "Couldn’t start the Live Activity: \(error.localizedDescription)")
         }
     }
 

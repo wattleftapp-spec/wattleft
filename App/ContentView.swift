@@ -1,6 +1,13 @@
 import SwiftUI
 
 struct ContentView: View {
+    /// Для маркетинговых скриншотов: `-hideDemoBanner` (только отладочная сборка).
+    #if DEBUG
+    static let hideDemoBanner = CommandLine.arguments.contains("-hideDemoBanner")
+    #else
+    static let hideDemoBanner = false
+    #endif
+
     @State private var model = BatteryViewModel()
     @State private var showSettings = false
     @State private var showOnboarding = false
@@ -9,13 +16,13 @@ struct ContentView: View {
     @Environment(\.scenePhase) private var scenePhase
 
     private let presets: [(name: String, icon: String, watts: Double)] = [
-        ("Роутер", "wifi.router", 15),
-        ("Ноутбук", "laptopcomputer", 60),
-        ("Котёл", "flame", 120),
-        ("Холодильник", "refrigerator", 150),
-        ("Телевизор", "tv", 200),
-        ("Обогреватель", "heater.vertical", 1500),
-        ("Чайник", "cup.and.saucer", 2000),
+        (String(localized: "Router"), "wifi.router", 15),
+        (String(localized: "Laptop"), "laptopcomputer", 60),
+        (String(localized: "Boiler"), "flame", 120),
+        (String(localized: "Fridge"), "refrigerator", 150),
+        (String(localized: "TV"), "tv", 200),
+        (String(localized: "Heater"), "heater.vertical", 1500),
+        (String(localized: "Kettle"), "cup.and.saucer", 2000),
     ]
 
     var body: some View {
@@ -25,11 +32,11 @@ struct ContentView: View {
                     list
                 } else {
                     ContentUnavailableView {
-                        Label("Станция не подключена", systemImage: "bolt.slash")
+                        Label("No station connected", systemImage: "bolt.slash")
                     } description: {
-                        Text("Включите Open API в приложении Marstek и укажите IP-адрес станции.")
+                        Text("Turn on Open API in the Marstek app and enter the station IP address.")
                     } actions: {
-                        Button("Подключить") { showOnboarding = true }
+                        Button("Connect") { showOnboarding = true }
                             .buttonStyle(.borderedProminent)
                     }
                 }
@@ -37,7 +44,7 @@ struct ContentView: View {
             .navigationTitle("Dashboard")
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
-                    Button("Настройки", systemImage: "gearshape") { showSettings = true }
+                    Button("Settings", systemImage: "gearshape") { showSettings = true }
                 }
             }
         }
@@ -67,14 +74,14 @@ struct ContentView: View {
 
     private var list: some View {
         List {
-            if model.settings.demoMode {
+            if model.settings.demoMode && !Self.hideDemoBanner {
                 Section {
                     HStack {
-                        Label("Демо-режим — данные не настоящие", systemImage: "play.circle")
+                        Label("Demo mode — not real data", systemImage: "play.circle")
                             .font(.footnote.weight(.medium))
                             .foregroundStyle(.secondary)
                         Spacer()
-                        Button("Подключить") {
+                        Button("Connect") {
                             model.settings.demoMode = false
                             showOnboarding = true
                         }
@@ -105,32 +112,32 @@ struct ContentView: View {
                     .padding(.vertical, 10)
                 }
 
-                Section("Сейчас") {
+                Section("Now") {
                     if let name = s.deviceName {
-                        LabeledContent("Станция", value: name)
+                        LabeledContent("Station", value: name)
                     }
-                    LabeledContent("Отдаёт", value: Fmt.watts(s.outputW))
-                    LabeledContent("Получает", value: Fmt.watts(s.inputW))
-                    LabeledContent("Энергия", value: "\(Fmt.wattHours(s.remainingWh)) из \(Fmt.wattHours(s.capacityWh))")
-                    LabeledContent("Доступно до резерва", value: Fmt.wattHours(e.usableWh))
-                    LabeledContent("Обновлено") {
-                        Text(s.date, style: .relative) + Text(" назад")
+                    LabeledContent("Output", value: Fmt.watts(s.outputW))
+                    LabeledContent("Input", value: Fmt.watts(s.inputW))
+                    LabeledContent("Energy", value: String(localized: "\(Fmt.wattHours(s.remainingWh)) of \(Fmt.wattHours(s.capacityWh))"))
+                    LabeledContent("Available above reserve", value: Fmt.wattHours(e.usableWh))
+                    LabeledContent("Updated") {
+                        Text("\(s.date, style: .relative) ago")
                     }
                 }
 
                 calculator(e)
 
                 Section {
-                    Toggle("Экран блокировки", systemImage: "lock.iphone", isOn: $model.settings.liveActivityEnabled)
+                    Toggle("Lock Screen", systemImage: "lock.iphone", isOn: $model.settings.liveActivityEnabled)
                 } footer: {
                     Text(model.liveActivityError
-                         ?? "Заряд и оставшееся время на экране блокировки и в Dynamic Island. Таймер идёт сам, даже когда приложение закрыто.")
+                         ?? String(localized: "Charge and time left on the Lock Screen and in the Dynamic Island. The timer keeps counting even when the app is closed."))
                 }
             } else {
                 Section {
                     HStack {
                         Spacer()
-                        ProgressView("Связываемся со станцией…")
+                        ProgressView("Connecting to the station…")
                         Spacer()
                     }
                     .padding(.vertical, 40)
@@ -165,9 +172,9 @@ struct ContentView: View {
     /// «● Разряд · 276 Вт» — контекст к цифре.
     private func statusLine(_ e: BatteryEstimate) -> some View {
         let (title, color): (String, Color) = switch e.mode {
-        case .discharging: ("Разряд", FlowingGradientText.dischargingLight[1])
-        case .charging: ("Заряд", FlowingGradientText.chargingLight[1])
-        case .idle: ("Простой", .gray)
+        case .discharging: (String(localized: "Discharging"), FlowingGradientText.dischargingLight[1])
+        case .charging: (String(localized: "Charging"), FlowingGradientText.chargingLight[1])
+        case .idle: (String(localized: "Idle"), .gray)
         }
         return HStack(spacing: 6) {
             Circle().fill(color).frame(width: 7, height: 7)
@@ -185,18 +192,18 @@ struct ContentView: View {
     private func headline(_ e: BatteryEstimate) -> Text {
         switch e.mode {
         case .discharging:
-            return Text("Хватит на ").foregroundStyle(.secondary) + Text(Fmt.duration(e.duration))
+            return Text("Lasts ", comment: "Followed by a duration, e.g. Lasts 5 h 20 min").foregroundStyle(.secondary) + Text(Fmt.duration(e.duration))
         case .charging:
-            return Text("До полной ").foregroundStyle(.secondary) + Text(Fmt.duration(e.duration))
+            return Text("Full in ", comment: "Followed by a duration").foregroundStyle(.secondary) + Text(Fmt.duration(e.duration))
         case .idle:
-            return Text("В запасе ").foregroundStyle(.secondary) + Text(Fmt.wattHours(e.usableWh))
+            return Text("In reserve ", comment: "Followed by energy, e.g. In reserve 3.2 kWh").foregroundStyle(.secondary) + Text(Fmt.wattHours(e.usableWh))
         }
     }
 
     private var legend: some View {
         HStack(spacing: 14) {
-            legendItem("было", dashed: false)
-            legendItem("прогноз", dashed: true)
+            legendItem(String(localized: "history", comment: "Chart legend"), dashed: false)
+            legendItem(String(localized: "forecast", comment: "Chart legend"), dashed: true)
             Spacer()
         }
         .font(.caption)
@@ -220,7 +227,7 @@ struct ContentView: View {
         let cal = Calendar.current
         let time = date.formatted(date: .omitted, time: .shortened)
         if cal.isDateInToday(date) { return time }
-        if cal.isDateInTomorrow(date) { return "завтра \(time)" }
+        if cal.isDateInTomorrow(date) { return String(localized: "tomorrow \(time)") }
         return date.formatted(.dateTime.day().month(.abbreviated).hour().minute())
     }
 
@@ -230,14 +237,14 @@ struct ContentView: View {
         Section {
             Menu {
                 ForEach(presets, id: \.name) { p in
-                    Button("\(p.name) — \(Int(p.watts)) Вт", systemImage: p.icon) {
+                    Button("\(p.name) — \(Fmt.watts(p.watts))", systemImage: p.icon) {
                         withAnimation { hypotheticalW = p.watts }
                     }
                 }
             } label: {
-                LabeledContent("Прибор") {
+                LabeledContent("Appliance") {
                     HStack(spacing: 4) {
-                        Text(presets.first { $0.watts == hypotheticalW }?.name ?? "Своя мощность")
+                        Text(presets.first { $0.watts == hypotheticalW }?.name ?? String(localized: "Custom power"))
                         Image(systemName: "chevron.up.chevron.down").font(.caption2)
                     }
                 }
@@ -245,12 +252,12 @@ struct ContentView: View {
             .tint(.primary)
 
             VStack(alignment: .leading) {
-                LabeledContent("Мощность", value: Fmt.watts(hypotheticalW))
+                LabeledContent("Power", value: Fmt.watts(hypotheticalW))
                 // Без `step:` — иначе iOS рисует под ползунком шкалу из 600 делений.
                 Slider(value: Binding(get: { hypotheticalW },
                                       set: { hypotheticalW = max(5, ($0 / 5).rounded() * 5) }),
                        in: 5...3000) {
-                    Text("Мощность")
+                    Text("Power")
                 } minimumValueLabel: {
                     Image(systemName: "powerplug").font(.caption).foregroundStyle(.secondary)
                 } maximumValueLabel: {
@@ -258,16 +265,16 @@ struct ContentView: View {
                 }
             }
 
-            LabeledContent("Хватит на") {
+            LabeledContent("Lasts") {
                 Text(Fmt.duration(BatteryEstimate.runtime(usableWh: e.usableWh, loadW: hypotheticalW)))
                     .font(.body.weight(.semibold))
                     .foregroundStyle(.primary)
                     .contentTransition(.numericText())
             }
         } header: {
-            Text("Если подключить")
+            Text("What if I plug in")
         } footer: {
-            Text("Считается от энергии выше резерва. Инвертор теряет 5–10%, реальное время будет чуть меньше.")
+            Text("Based on the energy above the reserve. The inverter loses 5–10%, so the real time will be a bit shorter.")
         }
     }
 }

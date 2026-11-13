@@ -11,13 +11,13 @@ enum MarstekError: LocalizedError {
     var errorDescription: String? {
         switch self {
         case .notConfigured:
-            return "Укажите IP-адрес станции в настройках."
+            return String(localized: "Enter the station IP address in Settings.")
         case .timeout:
-            return "Станция не ответила. Проверьте IP и порт, что телефон в той же Wi-Fi сети и что Open API включён в приложении Marstek."
+            return String(localized: "The station did not respond. Check the IP and port, that your phone is on the same Wi‑Fi network, and that Open API is on in the Marstek app.")
         case .badResponse(let raw):
-            return "Непонятный ответ станции: \(raw)"
+            return String(localized: "Unexpected response from the station: \(raw)")
         case .device(let message):
-            return "Станция вернула ошибку: \(message)"
+            return String(localized: "The station returned an error: \(message)")
         }
     }
 }
@@ -93,7 +93,7 @@ struct MarstekClient {
             throw MarstekError.badResponse(String(decoding: raw.prefix(200), as: UTF8.self))
         }
         if let error = response.error {
-            throw MarstekError.device(error.message ?? "код \(error.code ?? 0)")
+            throw MarstekError.device(error.message ?? "code \(error.code ?? 0)")
         }
         guard let result = response.result else {
             throw MarstekError.badResponse(String(decoding: raw.prefix(200), as: UTF8.self))
@@ -180,7 +180,7 @@ extension MarstekClient {
         }
         if settings.capacityOverrideWh > 0 { capacity = settings.capacityOverrideWh }
 
-        guard let soc else { throw MarstekError.badResponse("нет поля bat_soc") }
+        guard let soc else { throw MarstekError.badResponse("missing bat_soc") }
         let totalWh = (capacity ?? 0) > 0 ? capacity! : 5120
 
         // ongrid_power > 0 — станция отдаёт энергию в дом; < 0 — берёт из сети (заряд).

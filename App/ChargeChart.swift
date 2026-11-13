@@ -89,42 +89,42 @@ struct ChargeChart: View {
         Chart {
             // Заливка под всей кривой.
             ForEach(Array(pastPoints.enumerated()), id: \.offset) { _, p in
-                AreaMark(x: .value("Время", p.date), y: .value("Заряд", p.soc))
+                AreaMark(x: .value("Time", p.date), y: .value("Charge", p.soc))
                     .foregroundStyle(areaGradient)
             }
-            AreaMark(x: .value("Время", end.date), y: .value("Заряд", end.soc))
+            AreaMark(x: .value("Time", end.date), y: .value("Charge", end.soc))
                 .foregroundStyle(areaGradient)
 
             // История.
             ForEach(Array(pastPoints.enumerated()), id: \.offset) { _, p in
-                LineMark(x: .value("Время", p.date), y: .value("Заряд", p.soc), series: .value("Ряд", "история"))
+                LineMark(x: .value("Time", p.date), y: .value("Charge", p.soc), series: .value("Series", "history"))
                     .foregroundStyle(tint)
                     .lineStyle(StrokeStyle(lineWidth: 2.5, lineCap: .round, lineJoin: .round))
                     .interpolationMethod(.monotone)
             }
 
             // Прогноз.
-            LineMark(x: .value("Время", now), y: .value("Заряд", soc), series: .value("Ряд", "прогноз"))
+            LineMark(x: .value("Time", now), y: .value("Charge", soc), series: .value("Series", "forecast"))
                 .foregroundStyle(tint.opacity(0.8))
                 .lineStyle(StrokeStyle(lineWidth: 2, lineCap: .round, dash: [3, 5]))
-            LineMark(x: .value("Время", end.date), y: .value("Заряд", end.soc), series: .value("Ряд", "прогноз"))
+            LineMark(x: .value("Time", end.date), y: .value("Charge", end.soc), series: .value("Series", "forecast"))
                 .foregroundStyle(tint.opacity(0.8))
                 .lineStyle(StrokeStyle(lineWidth: 2, lineCap: .round, dash: [3, 5]))
 
             // Порог резерва.
             if reserve > 0 {
-                RuleMark(y: .value("Резерв", reserve))
+                RuleMark(y: .value("Reserve", reserve))
                     .foregroundStyle(Color.secondary.opacity(0.5))
                     .lineStyle(StrokeStyle(lineWidth: 1, dash: [2, 3]))
                     .annotation(position: .bottom, alignment: .leading, spacing: 2) {
-                        Text("резерв \(Int(reserve))%")
+                        Text("reserve \(Int(reserve))%", comment: "Chart label for the reserve threshold")
                             .font(.caption2)
                             .foregroundStyle(.secondary)
                     }
             }
 
             // Сейчас.
-            PointMark(x: .value("Время", now), y: .value("Заряд", soc))
+            PointMark(x: .value("Time", now), y: .value("Charge", soc))
                 .symbol {
                     Circle()
                         .fill(tint)
@@ -134,7 +134,7 @@ struct ChargeChart: View {
 
             // Конец прогноза.
             if estimate.mode != .idle {
-                PointMark(x: .value("Время", end.date), y: .value("Заряд", end.soc))
+                PointMark(x: .value("Time", end.date), y: .value("Charge", end.soc))
                     .symbol {
                         Circle()
                             .stroke(tint, lineWidth: 2)
@@ -151,7 +151,7 @@ struct ChargeChart: View {
 
             // Выбранная пальцем точка.
             if let selected, let value = value(at: selected) {
-                RuleMark(x: .value("Выбрано", selected))
+                RuleMark(x: .value("Selected", selected))
                     .foregroundStyle(Color.secondary.opacity(0.35))
                     .lineStyle(StrokeStyle(lineWidth: 1))
                     .annotation(position: .top, spacing: 4,
@@ -173,7 +173,7 @@ struct ChargeChart: View {
                                 .shadow(color: .black.opacity(0.12), radius: 6, y: 2)
                         }
                     }
-                PointMark(x: .value("Выбрано", selected), y: .value("Заряд", value))
+                PointMark(x: .value("Selected", selected), y: .value("Charge", value))
                     .foregroundStyle(tint)
                     .symbolSize(40)
             }

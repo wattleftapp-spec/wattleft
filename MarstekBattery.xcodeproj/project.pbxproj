@@ -166,11 +166,11 @@
 				};
 			};
 			buildConfigurationList = AA0000000000000000000700 /* Build configuration list for PBXProject "MarstekBattery" */;
-			developmentRegion = ru;
+			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
-				ru,
+				uk,
 				Base,
 			);
 			mainGroup = AA0000000000000000000010;
@@ -342,7 +342,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = AppInfo.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Wattleft;
-				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "Wattleft читает заряд станции Marstek в вашей Wi-Fi сети.";
+				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "Wattleft reads your battery charge over your Wi-Fi network.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -351,6 +351,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = app.wattleft.ios;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -370,7 +371,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = AppInfo.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Wattleft;
-				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "Wattleft читает заряд станции Marstek в вашей Wi-Fi сети.";
+				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "Wattleft reads your battery charge over your Wi-Fi network.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -379,6 +380,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = app.wattleft.ios;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -398,12 +400,13 @@
 				INFOPLIST_FILE = WidgetInfo.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Wattleft;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "Wattleft читает заряд станции Marstek в вашей Wi-Fi сети.";
+				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "Wattleft reads your battery charge over your Wi-Fi network.";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = app.wattleft.ios.widget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -424,12 +427,13 @@
 				INFOPLIST_FILE = WidgetInfo.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Wattleft;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "Wattleft читает заряд станции Marstek в вашей Wi-Fi сети.";
+				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "Wattleft reads your battery charge over your Wi-Fi network.";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = app.wattleft.ios.widget;
 				PRODUCT_NAME = "$(TARGET_NAME)";

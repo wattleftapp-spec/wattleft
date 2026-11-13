@@ -1,0 +1,46 @@
+{
+  "sourceLanguage": "en",
+  "strings": {
+    "CFBundleDisplayName": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wattleft"
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wattleft"
+          }
+        }
+      }
+    },
+    "CFBundleName": {
+      "shouldTranslate": false
+    },
+    "NSHumanReadableCopyright": {
+      "shouldTranslate": false
+    },
+    "NSLocalNetworkUsageDescription": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wattleft reads your battery charge over your Wi-Fi network."
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wattleft зчитує заряд станції через вашу Wi-Fi мережу."
+          }
+        }
+      }
+    }
+  },
+  "version": "1.0"
+}

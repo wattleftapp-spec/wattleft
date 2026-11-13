@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Wattleft — Support</title>
+<meta name="description" content="Wattleft shows how long your Marstek home battery will last. Setup help and contact.">
+<link rel="icon" href="icon.png">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main>
+  <header>
+    <a class="brand" href="./"><img src="icon.png" alt="" width="40" height="40"> Wattleft</a>
+    <nav><a href="privacy.html">Privacy</a> · <a href="#ru">Русский</a></nav>
+  </header>
+
+  <h1>Support</h1>
+  <p class="lead">Wattleft shows the charge of your Marstek home battery and turns current consumption into hours and minutes left — in the app, in widgets and on the Lock Screen.</p>
+
+  <div class="card">
+    <strong>Need help?</strong> Write to <a href="mailto:wattleft.app@gmail.com">wattleft.app@gmail.com</a> — include your station model and iPhone/iOS version. We usually reply within a few days.
+  </div>
+
+  <h2>Getting started</h2>
+  <ol>
+    <li>In the Marstek app, open your station's settings and turn on <strong>Open API</strong> (may be called <em>Local API</em>). Keep the default port 30000.</li>
+    <li>Find the station's IP address in the Marstek app or in your router's device list.</li>
+    <li>In Wattleft, enter the IP address and tap <strong>Check connection</strong>. Allow <em>Local Network</em> access when iOS asks.</li>
+  </ol>
+  <p>Tip: reserve a fixed IP for the station in your router (DHCP reservation), so the address doesn't change after a router restart.</p>
+
+  <h2>Common questions</h2>
+  <h3>Which stations are supported?</h3>
+  <p>Marstek Venus E, C, A and D with Open API enabled. If your station doesn't show the Open API option, update its firmware in the Marstek app.</p>
+
+  <h3>“The station did not respond”</h3>
+  <ul>
+    <li>Your iPhone must be on the same Wi‑Fi network as the station.</li>
+    <li>Check that Open API is on and the port matches.</li>
+    <li>Check Settings → Wattleft → Local Network is enabled.</li>
+  </ul>
+
+  <h3>The app says “charging” while the station is discharging</h3>
+  <p>Some firmware reports power with the opposite sign. Turn on <em>Invert grid power sign</em> in Wattleft settings.</p>
+
+  <h3>How often do widgets update?</h3>
+  <p>iOS refreshes widgets about every 15 minutes; between updates the remaining charge is estimated from the current load. The Lock Screen Live Activity counts down every second.</p>
+
+  <h3>Can I try it without a station?</h3>
+  <p>Yes — tap <strong>See demo</strong> on the first screen, or turn on <em>Demo mode</em> in settings.</p>
+
+  <p><a href="privacy.html">Privacy Policy</a> — Wattleft collects no personal data.</p>
+
+  <hr id="ru">
+
+  <h1>Поддержка</h1>
+  <p class="lead">Wattleft показывает заряд домашней станции Marstek и переводит текущее потребление в часы и минуты — в приложении, виджетах и на экране блокировки.</p>
+
+  <div class="card">
+    <strong>Нужна помощь?</strong> Напишите на <a href="mailto:wattleft.app@gmail.com">wattleft.app@gmail.com</a> — укажите модель станции и версию iPhone/iOS.
+  </div>
+
+  <h2>Как подключить</h2>
+  <ol>
+    <li>В приложении Marstek откройте настройки станции и включите <strong>Open API</strong> (может называться <em>Local API</em>). Порт оставьте 30000.</li>
+    <li>Найдите IP‑адрес станции в приложении Marstek или в списке устройств роутера.</li>
+    <li>В Wattleft введите IP и нажмите <strong>«Проверить связь»</strong>. Разрешите доступ к локальной сети, когда iOS спросит.</li>
+  </ol>
+  <p>Совет: закрепите IP за станцией в роутере (резервирование DHCP).</p>
+
+  <h2>Частые вопросы</h2>
+  <h3>Станция не отвечает</h3>
+  <ul>
+    <li>iPhone и станция должны быть в одной Wi‑Fi сети.</li>
+    <li>Open API включён, порт совпадает.</li>
+    <li>Настройки → Wattleft → «Локальная сеть» включена.</li>
+  </ul>
+  <h3>Пишет «заряжается», хотя станция разряжается</h3>
+  <p>Включите в настройках «Инвертировать знак мощности сети».</p>
+  <h3>Можно посмотреть без станции?</h3>
+  <p>Да — «Посмотреть демо» на первом экране или «Демо‑режим» в настройках.</p>
+
+  <p><a href="privacy.html#ru">Политика конфиденциальности</a></p>
+
+  <footer class="muted">Marstek is a trademark of its respective owner. Wattleft is an independent app and is not affiliated with or endorsed by Marstek.</footer>
+</main>
+</body>
+</html>

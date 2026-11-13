@@ -344,6 +344,16 @@
         }
       }
     },
+    "A notification when the station starts charging from the grid. iOS lets the app check the station every 15–30 minutes in the background, so it may arrive with a delay." : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Сповіщення, коли станція почне заряджатися від мережі. У фоні iOS дозволяє перевіряти станцію раз на 15–30 хвилин, тож воно може прийти із затримкою."
+          }
+        }
+      }
+    },
     "A timer in the Dynamic Island and on the Lock Screen." : {
       "localizations" : {
         "uk" : {
@@ -1102,6 +1112,16 @@
         }
       }
     },
+    "Notifications" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Сповіщення"
+          }
+        }
+      }
+    },
     "Now" : {
       "localizations" : {
         "uk" : {
@@ -1168,6 +1188,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Потужність"
+          }
+        }
+      }
+    },
+    "Power is back" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Світло дали"
           }
         }
       }
@@ -1319,6 +1349,32 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Станція не відповіла. Перевірте IP і порт, що телефон у тій самій Wi‑Fi мережі і що Open API увімкнено в застосунку Marstek."
+          }
+        }
+      }
+    },
+    "The station is charging from the grid: %lld%%, full in %@." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "The station is charging from the grid: %1$lld%%, full in %2$@."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Станція заряджається від мережі: %lld%%, повна через %@."
+          }
+        }
+      }
+    },
+    "The station is getting power from the grid: %lld%%." : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Станція отримує живлення від мережі: %lld%%."
           }
         }
       }
@@ -1519,6 +1575,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Якщо підключити"
+          }
+        }
+      }
+    },
+    "When grid power returns" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Коли з’явиться світло"
           }
         }
       }

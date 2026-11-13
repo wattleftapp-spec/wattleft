@@ -198,7 +198,8 @@ extension MarstekClient {
             capacityWh: totalWh,
             outputW: output,
             inputW: input,
-            deviceName: src
+            deviceName: src,
+            gridInW: max(0, -ongrid)
         )
     }
 }

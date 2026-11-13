@@ -57,6 +57,7 @@ Wattleft перетворює заряд домашньої станції на 
 • Віджети для екрана «Початок» — світлі й темні
 • Таймер на заблокованому екрані та в Dynamic Island — іде сам щосекунди
 • Віджети для заблокованого екрана
+• Сповіщення «Світло дали», коли станція почала заряджатися від мережі
 
 КАЛЬКУЛЯТОР НАВАНТАЖЕННЯ
 • «А якщо увімкнути обігрівач?» — оберіть прилад або задайте потужність і дізнайтеся, на скільки вистачить
@@ -124,6 +125,7 @@ ALWAYS AT HAND
 • Home Screen widgets in light and dark
 • Lock Screen and Dynamic Island timer that counts down every second
 • Lock Screen widgets
+• A “Power is back” notification when the station starts charging from the grid
 
 LOAD CALCULATOR
 • "What if I turn on the heater?" — pick an appliance or set the power to see how long the battery lasts

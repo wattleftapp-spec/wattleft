@@ -14,6 +14,8 @@ struct AppSettings: Codable, Equatable {
     var liveActivityEnabled: Bool = true
     /// Демо-режим: встроенная имитация станции — чтобы посмотреть приложение без Marstek.
     var demoMode: Bool = false
+    /// Уведомлять, когда появилось питание от сети и станция начала заряжаться.
+    var notifyGridReturn: Bool = true
 
     var isConfigured: Bool { demoMode || !host.trimmingCharacters(in: .whitespaces).isEmpty }
 
@@ -29,6 +31,7 @@ struct AppSettings: Codable, Equatable {
         capacityOverrideWh = try c.decodeIfPresent(Double.self, forKey: .capacityOverrideWh) ?? 0
         liveActivityEnabled = try c.decodeIfPresent(Bool.self, forKey: .liveActivityEnabled) ?? true
         demoMode = try c.decodeIfPresent(Bool.self, forKey: .demoMode) ?? false
+        notifyGridReturn = try c.decodeIfPresent(Bool.self, forKey: .notifyGridReturn) ?? true
     }
 }
 
@@ -42,6 +45,9 @@ struct BatterySnapshot: Codable, Equatable {
     /// Сколько приходит в станцию (сеть/солнце), W.
     var inputW: Double
     var deviceName: String?
+    /// Сколько из входящей мощности приходит именно из городской сети, W (без солнца).
+    /// nil — в старых сохранённых замерах.
+    var gridInW: Double? = nil
 
     var remainingWh: Double { capacityWh * socPercent / 100 }
     /// > 0 — батарея разряжается, < 0 — заряжается.
@@ -154,8 +160,13 @@ enum SharedStore {
     static func averagedNetW(at now: Date = Date()) -> Double? {
         let samples: [Sample] = load(samplesKey) ?? []
         let recent = samples.filter { now.timeIntervalSince($0.date) <= 10 * 60 }
-        guard !recent.isEmpty else { return nil }
-        return recent.map(\.netW).reduce(0, +) / Double(recent.count)
+        guard let last = recent.last else { return nil }
+        // Усредняем только с последней смены режима: если дали свет и станция пошла на заряд,
+        // старые замеры разряда не должны тянуть прогноз назад.
+        func mode(_ w: Double) -> Int { w > BatteryEstimate.idleThresholdW ? 1 : (w < -BatteryEstimate.idleThresholdW ? -1 : 0) }
+        let current = mode(last.netW)
+        let sameMode = recent.reversed().prefix { mode($0.netW) == current }
+        return sameMode.map(\.netW).reduce(0, +) / Double(sameMode.count)
     }
 
     private static func load<T: Decodable>(_ key: String) -> T? {
@@ -182,6 +193,7 @@ enum BatteryService {
             if SharedStore.history.count < 10 { DemoStation.seedHistory(settings: settings) }
             let snapshot = DemoStation.snapshot(at: Date(), settings: settings)
             SharedStore.record(snapshot)
+            await GridWatcher.check(snapshot, settings: settings)
             return snapshot
         }
         let client = MarstekClient(
@@ -192,6 +204,7 @@ enum BatteryService {
         do {
             let snapshot = try await client.fetchSnapshot(settings: settings)
             SharedStore.record(snapshot)
+            await GridWatcher.check(snapshot, settings: settings)
             return snapshot
         } catch {
             SharedStore.lastError = error.localizedDescription
@@ -281,7 +294,8 @@ enum DemoStation {
             input = 1200 + wobble * 2
         }
         return BatterySnapshot(date: date, socPercent: min(100, max(0, soc)), capacityWh: capacityWh,
-                               outputW: max(0, output), inputW: max(0, input), deviceName: String(localized: "Demo · Venus E"))
+                               outputW: max(0, output), inputW: max(0, input), deviceName: String(localized: "Demo · Venus E"),
+                               gridInW: max(0, input))
     }
 
     /// История за последние часы — чтобы график в демо не был пустым.

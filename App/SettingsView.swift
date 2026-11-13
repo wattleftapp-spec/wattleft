@@ -36,6 +36,14 @@ struct SettingsView: View {
                 }
 
                 Section {
+                    Toggle("When grid power returns", isOn: $draft.notifyGridReturn)
+                } header: {
+                    Text("Notifications")
+                } footer: {
+                    Text("A notification when the station starts charging from the grid. iOS lets the app check the station every 15–30 minutes in the background, so it may arrive with a delay.")
+                }
+
+                Section {
                     Stepper("Reserve: \(Int(draft.reservePercent))%", value: $draft.reservePercent, in: 0...50, step: 1)
                     Toggle("Invert grid power sign", isOn: $draft.invertGridSign)
                     LabeledContent("Capacity, Wh") {

@@ -1,9 +1,21 @@
 import SwiftUI
+import UserNotifications
 import WidgetKit
+
+/// Показывать уведомление «Свет дали» и когда приложение открыто.
+final class NotificationDelegate: NSObject, UNUserNotificationCenterDelegate {
+    static let shared = NotificationDelegate()
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification) async
+        -> UNNotificationPresentationOptions { [.banner, .list, .sound] }
+}
 
 @main
 struct MarstekBatteryApp: App {
     @Environment(\.scenePhase) private var scenePhase
+
+    init() {
+        UNUserNotificationCenter.current().delegate = NotificationDelegate.shared
+    }
 
     var body: some Scene {
         WindowGroup {
@@ -34,6 +46,12 @@ final class BatteryViewModel {
             guard settings != oldValue else { return }
             SharedStore.settings = settings
             WidgetCenter.shared.reloadAllTimelines()
+            if settings.notifyGridReturn && !oldValue.notifyGridReturn {
+                Task { await GridWatcher.requestAuthorization() }
+            }
+            if settings.demoMode != oldValue.demoMode || settings.host != oldValue.host {
+                GridWatcher.reset()
+            }
             if settings.demoMode != oldValue.demoMode {
                 // Демо и настоящая станция не смешиваются в истории.
                 SharedStore.resetData()

@@ -60,10 +60,17 @@ struct ContentView: View {
             OnboardingView(model: model) {
                 onboardingDone = true
                 showOnboarding = false
+                if model.settings.notifyGridReturn {
+                    Task { await GridWatcher.requestAuthorization() }
+                }
             }
         }
         .onAppear {
             if !onboardingDone { showOnboarding = true }
+            // Для уже настроенных пользователей: спросить разрешение один раз (iOS запомнит ответ).
+            if onboardingDone && model.settings.isConfigured && model.settings.notifyGridReturn {
+                Task { await GridWatcher.requestAuthorization() }
+            }
         }
         .task(id: scenePhase) {
             if scenePhase == .active { await model.poll() }

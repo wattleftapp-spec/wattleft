@@ -89,9 +89,9 @@ private struct LockScreenView: View {
                     .buttonStyle(.plain)
                     .foregroundStyle(.secondary)
                 }
+                // Один индикатор — кольцо слева; отдельная полоса не нужна.
                 LiveCountdown(state: s)
                     .font(.title2.weight(.bold))
-                LiveBar(state: s)
                 Text(String(localized: "\(powerText(s)) · data \(s.updated.formatted(date: .omitted, time: .shortened))"))
                     .font(.caption2)
                     .foregroundStyle(context.isStale ? .orange : .secondary)

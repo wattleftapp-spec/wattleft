@@ -109,7 +109,8 @@ func phone(_ screen: NSImage, x: CGFloat, y: CGFloat, width: CGFloat) {
 /// Вырезать область из исходника (в пикселях, начало — сверху слева) и скруглить.
 func card(_ img: NSImage, _ crop: CGRect, to dest: CGRect, radius: CGFloat, angle: CGFloat = 0) {
     let rep = img.representations.first as! NSBitmapImageRep
-    let cg = rep.cgImage!.cropping(to: crop)!
+    // Чуть внутрь от края карточки, чтобы не захватить обои витрины.
+    let cg = rep.cgImage!.cropping(to: crop.insetBy(dx: 6, dy: 6))!
     let ctx = NSGraphicsContext.current!.cgContext
     ctx.saveGState()
     ctx.translateBy(x: dest.midX, y: dest.midY); ctx.rotate(by: angle * .pi / 180)

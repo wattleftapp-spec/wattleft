@@ -1,7 +1,7 @@
 import SwiftUI
 import WidgetKit
 
-// Виджеты домашнего экрана (светлая и тёмная тема): карточка со свечением цвета состояния,
+// Виджеты домашнего экрана (светлая и тёмная тема): ровная минималистичная карточка,
 // шапка с иконкой, подпись, крупное значение и полоса со штрихами на пустой части.
 
 /// Что показывать в карточке — общее для маленького и среднего размера.
@@ -78,65 +78,83 @@ struct Ink {
     func icon(_ c: [Color]) -> Color { dark ? c[2] : c[1] }
 }
 
-/// Фон: почти чёрный, свечение тёмной ступени сверху и средней снизу, тонкая светлая кромка.
-/// На светлой теме — тёплый белый со светлым пастельным свечением того же цвета.
-struct GlowBackground: View {
-    let mode: BatteryEstimate.Mode?
+/// Фон: ровная заливка без свечения, градиентов и рамки — почти чёрный или тёплый белый.
+/// Цвет состояния остаётся только на иконке, подписи и полосе.
+struct WidgetBackground: View {
     @Environment(\.colorScheme) private var scheme
 
     var body: some View {
-        let c = BatteryPalette.colors(for: mode, dark: scheme == .dark)
-        if scheme == .dark {
-            ZStack {
-                Color(red: 0.055, green: 0.055, blue: 0.065)
-                RadialGradient(colors: [c[0].opacity(0.75), c[0].opacity(0)],
-                               center: .topTrailing, startRadius: 0, endRadius: 240)
-                RadialGradient(colors: [c[1].opacity(0.35), c[1].opacity(0)],
-                               center: .bottomLeading, startRadius: 0, endRadius: 200)
-                LinearGradient(colors: [.white.opacity(0.06), .clear], startPoint: .top, endPoint: .center)
-                ContainerRelativeShape()
-                    .strokeBorder(.white.opacity(0.09), lineWidth: 1)
-            }
-        } else {
-            ZStack {
-                Color(red: 0.985, green: 0.982, blue: 0.975)
-                RadialGradient(colors: [c[2].opacity(0.30), c[2].opacity(0)],
-                               center: .topTrailing, startRadius: 0, endRadius: 240)
-                RadialGradient(colors: [c[1].opacity(0.12), c[1].opacity(0)],
-                               center: .bottomLeading, startRadius: 0, endRadius: 200)
-                ContainerRelativeShape()
-                    .strokeBorder(.black.opacity(0.06), lineWidth: 1)
-            }
-        }
+        scheme == .dark ? Color(red: 0.07, green: 0.07, blue: 0.08) : Color(red: 0.985, green: 0.982, blue: 0.975)
     }
 }
 
-/// Полоса: градиентная заливка до текущего заряда, дальше — тонкие штрихи.
+/// Полоса: сплошная заливка до текущего заряда, дальше — тонкие штрихи.
+/// При смене записи виджета заливка плавно растёт (зарядка) или убывает (разрядка),
+/// а штрихи открываются или прячутся вслед за ней.
 struct TickBar: View {
     let fraction: Double
-    let colors: [Color]
+    let color: Color
     var tick: Color = .white.opacity(0.22)
+    /// Направление блика: при зарядке бежит вправо, при разрядке — влево.
+    var rising = false
 
     var body: some View {
         GeometryReader { g in
             let h = g.size.height
             let fill = max(h, g.size.width * min(1, max(0, fraction)))
             ZStack(alignment: .leading) {
+                // Штрихи рисуются на всю ширину и открываются маской справа от заливки —
+                // так они двигаются вместе с ней, а не перескакивают.
                 Canvas { ctx, size in
-                    var x = fill + 5
+                    var x: CGFloat = 0
                     while x < size.width - 1 {
                         let r = CGRect(x: x, y: size.height * 0.12, width: 1.6, height: size.height * 0.76)
                         ctx.fill(Path(roundedRect: r, cornerRadius: 0.8), with: .color(tick))
                         x += 4.5
                     }
                 }
+                .mask(alignment: .leading) {
+                    HStack(spacing: 0) {
+                        Color.clear.frame(width: min(g.size.width, fill + 5))
+                        Color.black
+                    }
+                }
                 Capsule()
-                    .fill(LinearGradient(colors: [colors[1], colors[2]], startPoint: .leading, endPoint: .trailing))
+                    .fill(color)
+                    .overlay {
+                        // Блик-«волна» по заливке: появляется заново на каждой записи виджета
+                        // (новый id) и пробегает от одного края к другому.
+                        GeometryReader { b in
+                            Capsule()
+                                .fill(.white.opacity(0.55))
+                                .frame(width: max(h * 3, b.size.width * 0.35))
+                                .blur(radius: 3)
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                                .transition(Sweep(width: b.size.width, rising: rising))
+                                .id(fraction)
+                        }
+                    }
+                    .clipShape(Capsule())
                     .frame(width: fill)
                     .widgetAccentable()
             }
+            .animation(.smooth(duration: 0.9), value: fraction)
         }
         .frame(height: 8)
+    }
+}
+
+/// Переход блика: вставка — пробег от одного края полосы за другой, в покое блик спрятан за краем.
+private struct Sweep: Transition {
+    let width: CGFloat
+    let rising: Bool
+
+    func body(content: Content, phase: TransitionPhase) -> some View {
+        let start: CGFloat = rising ? -width * 0.5 : width * 1.2
+        let end: CGFloat = rising ? width * 1.2 : -width * 0.5
+        content
+            .offset(x: phase == .willAppear ? start : end)
+            .animation(.easeInOut(duration: 1.1), value: phase)
     }
 }
 
@@ -169,6 +187,8 @@ struct BigValue: View {
         .monospacedDigit()
         .lineLimit(1)
         .minimumScaleFactor(0.6)
+        .contentTransition(.numericText(value: content.duration.map { Double($0.h * 60 + $0.m) } ?? content.soc))
+        .animation(.smooth(duration: 0.9), value: content.soc)
         .widgetAccentable()
     }
 }
@@ -222,7 +242,7 @@ struct SmallCard: View {
                 .font(.subheadline)
                 .foregroundStyle(ink.label(c))
             BigValue(content: content, size: 38)
-            TickBar(fraction: content.soc / 100, colors: ink.dark ? c : [c[0], c[0], c[1]], tick: ink.tick)
+            TickBar(fraction: content.soc / 100, color: ink.icon(c), tick: ink.tick, rising: content.mode == .charging)
                 .padding(.top, 8)
         }
         .foregroundStyle(ink.primary)
@@ -252,7 +272,7 @@ struct MediumCard: View {
                         .monospacedDigit()
                 }
             }
-            TickBar(fraction: content.soc / 100, colors: ink.dark ? c : [c[0], c[0], c[1]], tick: ink.tick)
+            TickBar(fraction: content.soc / 100, color: ink.icon(c), tick: ink.tick, rising: content.mode == .charging)
                 .padding(.top, 10)
         }
         .foregroundStyle(ink.primary)

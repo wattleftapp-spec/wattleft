@@ -145,7 +145,7 @@ struct MarstekWidgetView: View {
         .containerBackground(for: .widget) {
             switch family {
             case .systemSmall, .systemMedium:
-                GlowBackground(mode: entry.estimate?.mode)
+                WidgetBackground()
             default:
                 Color.clear
             }

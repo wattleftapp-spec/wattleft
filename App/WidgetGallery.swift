@@ -13,9 +13,14 @@ struct WidgetGallery: View {
         return WidgetContent(estimate: e, soc: soc, date: Date(), isStale: false)
     }
 
+    /// Шаг «записи» виджета: с `-animateWidgets` меняется каждые 2 с, чтобы увидеть анимацию полосы.
+    @State private var step = 0
+    private let animate = ProcessInfo.processInfo.arguments.contains("-animateWidgets")
+
     var body: some View {
-        let discharging = content(.discharging, soc: 77, hours: 10.5, power: 320)
-        let charging = content(.charging, soc: 46, hours: 3.4, power: 410)
+        let k = Double(step % 4)
+        let discharging = content(.discharging, soc: 77 - k * 12, hours: 10.5 - k * 1.6, power: 320)
+        let charging = content(.charging, soc: 46 + k * 14, hours: 3.4 - k * 0.8, power: 410)
 
         ScrollView {
             VStack(spacing: 14) {
@@ -34,6 +39,13 @@ struct WidgetGallery: View {
                            startPoint: .topLeading, endPoint: .bottomTrailing)
             .ignoresSafeArea()
         )
+        .task {
+            guard animate else { return }
+            while !Task.isCancelled {
+                try? await Task.sleep(for: .seconds(2))
+                step += 1
+            }
+        }
     }
 
     @ViewBuilder
@@ -44,9 +56,8 @@ struct WidgetGallery: View {
         }
         .padding(16)
         .frame(width: size.width, height: size.height)
-        .background(GlowBackground(mode: c.mode))
+        .background(WidgetBackground())
         .clipShape(shape)
-        .overlay(shape.strokeBorder(.white.opacity(0.08), lineWidth: 1).opacity(0))
     }
 }
 

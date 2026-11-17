@@ -97,9 +97,24 @@ private struct PressableStyle: ButtonStyle {
 
 extension View {
     /// Строка списка без собственного фона и отступов — для баннера.
-    func bannerRow() -> some View {
+    func bannerRow(bottom: CGFloat = 0) -> some View {
         listRowBackground(Color.clear)
-            .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+            .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: bottom, trailing: 0))
             .listRowSeparator(.hidden)
     }
+
+    /// Состояние «уходит»: карточка растворяется, размывается, чуть уменьшается и уезжает вверх.
+    func bannerLeaving(_ leaving: Bool) -> some View {
+        opacity(leaving ? 0 : 1)
+            .blur(radius: leaving ? 8 : 0)
+            .scaleEffect(leaving ? 0.94 : 1, anchor: .top)
+            .offset(y: leaving ? -10 : 0)
+    }
+}
+
+// MARK: - Переходы
+
+extension Animation {
+    /// Уход баннера — быстрый, с сильным ease-out: система отвечает, а не задумывается.
+    static let bannerExit = Animation.timingCurve(0.23, 1, 0.32, 1, duration: 0.35)
 }

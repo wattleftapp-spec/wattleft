@@ -12,6 +12,11 @@ struct ContentView: View {
     @State private var showSettings = false
     @State private var showOnboarding = false
     @State private var openGuideAfterSettings = false
+    /// Информационные баннеры (без действия), которые уже показались и скрылись сами.
+    /// Баннер снова может появиться, только когда его условие пропало и вернулось.
+    @State private var dismissedBanners: Set<String> = []
+    /// Баннеры, которые прямо сейчас проигрывают анимацию ухода.
+    @State private var leavingBanners: Set<String> = []
     @State private var hypotheticalW: Double = 150
     @AppStorage("onboardingDone") private var onboardingDone = false
     @Environment(\.scenePhase) private var scenePhase
@@ -87,6 +92,9 @@ struct ContentView: View {
                 Task { await GridWatcher.requestAuthorization() }
             }
         }
+        .onChange(of: banners.map(\.id)) { _, ids in
+            dismissedBanners.formIntersection(ids)
+        }
         .task(id: scenePhase) {
             if scenePhase == .active { await model.poll() }
         }
@@ -96,13 +104,22 @@ struct ContentView: View {
 
     private var list: some View {
         List {
-            if !banners.isEmpty {
+            let shown = banners.filter { !dismissedBanners.contains($0.id) }
+            if !shown.isEmpty {
                 Section {
-                    VStack(spacing: 14) {
-                        ForEach(banners) { $0.view }
+                    // Каждый баннер — своя строка: список сам плавно схлопывает место после ухода.
+                    ForEach(shown) { item in
+                        item.view
+                            .bannerLeaving(leavingBanners.contains(item.id))
+                            .bannerRow(bottom: item.id == shown.last?.id ? 0 : 14)
+                            .task(id: item.id) {
+                                guard item.autoDismiss else { return }
+                                try? await Task.sleep(for: .seconds(3))
+                                guard !Task.isCancelled else { return }
+                                await dismissBanner(item.id)
+                            }
                     }
                 }
-                .bannerRow()
             }
 
             if let s = model.snapshot, let e = model.estimate {
@@ -163,6 +180,8 @@ struct ContentView: View {
     struct BannerItem: Identifiable {
         let id: String
         let view: InfoBanner
+        /// Баннер без действия только сообщает — скрываем его сам через 3 секунды.
+        var autoDismiss: Bool { view.action == nil }
     }
 
     /// Все подсказки над карточкой заряда, по важности: ошибки → предупреждения → инфо.
@@ -214,6 +233,17 @@ struct ContentView: View {
                 }))
         }
         return items
+    }
+
+    /// Два шага: сначала баннер растворяется на месте (размытие, уменьшение, сдвиг вверх),
+    /// затем список плавно убирает освободившееся место — без рывков и обрезанных соседей.
+    private func dismissBanner(_ id: String) async {
+        withAnimation(.bannerExit) { _ = leavingBanners.insert(id) }
+        try? await Task.sleep(for: .milliseconds(300))
+        withAnimation(.smooth(duration: 0.35)) {
+            _ = dismissedBanners.insert(id)
+            _ = leavingBanners.remove(id)
+        }
     }
 
     private func openSystemSettings() {

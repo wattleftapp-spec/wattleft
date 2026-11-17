@@ -11,6 +11,7 @@ struct ContentView: View {
     @State private var model = BatteryViewModel()
     @State private var showSettings = false
     @State private var showOnboarding = false
+    @State private var openGuideAfterSettings = false
     @State private var hypotheticalW: Double = 150
     @AppStorage("onboardingDone") private var onboardingDone = false
     @Environment(\.scenePhase) private var scenePhase
@@ -31,14 +32,21 @@ struct ContentView: View {
                 if model.settings.isConfigured {
                     list
                 } else {
-                    ContentUnavailableView {
-                        Label("No station connected", systemImage: "bolt.slash")
-                    } description: {
-                        Text("Turn on Open API in the Marstek app and enter the station IP address.")
-                    } actions: {
-                        Button("Connect") { showOnboarding = true }
-                            .buttonStyle(.borderedProminent)
+                    List {
+                        Section {
+                            VStack(spacing: 14) {
+                                InfoBanner(icon: "bolt.slash", title: "No station connected",
+                                           message: "Turn on Open API in the Marstek app and enter the station IP address.",
+                                           tone: .neutral) { showOnboarding = true }
+                                InfoBanner(icon: "play.fill", title: "Try the demo",
+                                           message: "See how Wattleft works with a simulated station.",
+                                           tone: .info) { model.settings.demoMode = true }
+                            }
+                        }
+                        .bannerRow()
                     }
+                    .listSectionSpacing(.custom(32))
+                    .contentMargins(.top, 20, for: .scrollContent)
                 }
             }
             .navigationTitle("Dashboard")
@@ -48,12 +56,19 @@ struct ContentView: View {
                 }
             }
         }
-        .sheet(isPresented: $showSettings) {
+        // Онбординг открываем только после того, как лист настроек полностью закрылся —
+        // иначе полноэкранный экран появляется во время анимации и остаётся прозрачным.
+        .sheet(isPresented: $showSettings, onDismiss: {
+            if openGuideAfterSettings {
+                openGuideAfterSettings = false
+                showOnboarding = true
+            }
+        }) {
             SettingsView(settings: $model.settings,
                          onTest: { await model.refresh() },
                          onShowGuide: {
+                             openGuideAfterSettings = true
                              showSettings = false
-                             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { showOnboarding = true }
                          })
         }
         .fullScreenCover(isPresented: $showOnboarding) {
@@ -81,26 +96,15 @@ struct ContentView: View {
 
     private var list: some View {
         List {
-            if model.settings.demoMode && !Self.hideDemoBanner {
-                Section {
-                    HStack {
-                        Label("Demo mode — not real data", systemImage: "play.circle")
-                            .font(.footnote.weight(.medium))
-                            .foregroundStyle(.secondary)
-                        Spacer()
-                        Button("Connect") {
-                            model.settings.demoMode = false
-                            showOnboarding = true
+            if !Self.hideDemoBanner {
+                let items = banners
+                if !items.isEmpty {
+                    Section {
+                        VStack(spacing: 14) {
+                            ForEach(items) { $0.view }
                         }
-                        .font(.footnote.weight(.semibold))
                     }
-                }
-            }
-            if let error = model.errorText {
-                Section {
-                    Label(error, systemImage: "wifi.exclamationmark")
-                        .foregroundStyle(.orange)
-                        .font(.footnote)
+                    .bannerRow()
                 }
             }
 
@@ -137,8 +141,8 @@ struct ContentView: View {
                 Section {
                     Toggle("Lock Screen", systemImage: "lock.iphone", isOn: $model.settings.liveActivityEnabled)
                 } footer: {
-                    Text(model.liveActivityError
-                         ?? String(localized: "Charge and time left on the Lock Screen and in the Dynamic Island. The timer keeps counting even when the app is closed."))
+                    // Ошибка Live Activity показывается баннером сверху, здесь — только пояснение.
+                    Text("Charge and time left on the Lock Screen and in the Dynamic Island. The timer keeps counting even when the app is closed.")
                 }
             } else {
                 Section {
@@ -155,6 +159,68 @@ struct ContentView: View {
         .contentMargins(.top, 20, for: .scrollContent)
         .refreshable { await model.refresh() }
         .animation(.default, value: model.errorText)
+    }
+
+    // MARK: - Banners
+
+    struct BannerItem: Identifiable {
+        let id: String
+        let view: InfoBanner
+    }
+
+    /// Все подсказки над карточкой заряда, по важности: ошибки → предупреждения → инфо.
+    private var banners: [BannerItem] {
+        var items: [BannerItem] = []
+        let settings = model.settings
+
+        if let error = model.errorText {
+            let age = model.snapshot.map { Text("\n") + Text("Last data \($0.date, style: .relative) ago.") } ?? Text("")
+            items.append(.init(id: "error", view: InfoBanner(
+                icon: "wifi.exclamationmark", title: "Station isn’t responding",
+                message: Text(error) + age, tone: .error) { showSettings = true }))
+        }
+
+        if let e = model.estimate, e.mode == .discharging, let d = e.duration, d < 3600 {
+            items.append(.init(id: "low", view: InfoBanner(
+                icon: "battery.25percent", title: "Almost at reserve",
+                message: Text("About \(Fmt.duration(d)) left at the current load. Turn off what you don’t need."),
+                tone: .warning)))
+        }
+
+        if let s = model.snapshot, GridWatcher.isOnline(s), let e = model.estimate, e.mode == .charging {
+            items.append(.init(id: "grid", view: InfoBanner(
+                icon: "bolt.fill", title: "Power is back",
+                message: Text("Charging from the grid, full in \(Fmt.duration(e.duration)).") ,
+                tone: .success)))
+        }
+
+        if settings.notifyGridReturn && model.notificationsDenied {
+            items.append(.init(id: "notif", view: InfoBanner(
+                icon: "bell.slash", title: "Notifications are off",
+                message: "You won’t know when power is back. Turn them on in Settings → Wattleft.",
+                tone: .warning) { openSystemSettings() }))
+        }
+
+        if settings.liveActivityEnabled, let err = model.liveActivityError {
+            items.append(.init(id: "live", view: InfoBanner(
+                icon: "lock.iphone", title: "Lock Screen timer is off",
+                message: Text(err), tone: .warning) { openSystemSettings() }))
+        }
+
+        if settings.demoMode {
+            items.append(.init(id: "demo", view: InfoBanner(
+                icon: "play.fill", title: "Demo mode",
+                message: "The data isn’t real. Tap to connect your own station.",
+                tone: .info) {
+                    model.settings.demoMode = false
+                    showOnboarding = true
+                }))
+        }
+        return items
+    }
+
+    private func openSystemSettings() {
+        if let url = URL(string: UIApplication.openSettingsURLString) { UIApplication.shared.open(url) }
     }
 
     // MARK: - Summary

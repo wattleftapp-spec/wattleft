@@ -22,6 +22,8 @@ struct MarstekBatteryApp: App {
             #if DEBUG
             if CommandLine.arguments.contains("-widgetGallery") {
                 WidgetGallery()
+            } else if CommandLine.arguments.contains("-bannerGallery") {
+                BannerGallery()
             } else {
                 ContentView()
             }
@@ -70,6 +72,8 @@ final class BatteryViewModel {
     var history: [ChargeHistoryPoint] = SharedStore.history
     var errorText: String?
     var liveActivityError: String?
+    /// Пользователь запретил уведомления — показать подсказку.
+    var notificationsDenied = false
     var isLoading = false
     private var lastWidgetReload = Date.distantPast
 
@@ -122,7 +126,13 @@ final class BatteryViewModel {
     }
 
     /// Пока приложение открыто — опрашиваем станцию каждые 10 секунд.
+    func updateNotificationStatus() async {
+        let status = await UNUserNotificationCenter.current().notificationSettings().authorizationStatus
+        notificationsDenied = status == .denied
+    }
+
     func poll() async {
+        await updateNotificationStatus()
         while !Task.isCancelled {
             await refresh()
             try? await Task.sleep(nanoseconds: 10_000_000_000)

@@ -214,7 +214,12 @@ enum BatteryService {
 }
 
 enum Fmt {
+    /// Длительность целиком без переносов строки («2 h 30 min» не разрывается).
     static func duration(_ t: TimeInterval?) -> String {
+        durationText(t).replacingOccurrences(of: " ", with: "\u{00A0}")
+    }
+
+    private static func durationText(_ t: TimeInterval?) -> String {
         guard let t, t.isFinite, t >= 0 else { return "—" }
         let minutes = Int((t / 60).rounded())
         if minutes < 60 { return String(localized: "\(minutes) min") }

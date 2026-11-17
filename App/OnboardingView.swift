@@ -33,6 +33,9 @@ struct OnboardingView: View {
                     }
                 }
         }
+        // Явный непрозрачный фон: экран всегда закрывает приложение под собой.
+        .background(Color(.systemBackground).ignoresSafeArea())
+        .presentationBackground(Color(.systemBackground))
     }
 }
 

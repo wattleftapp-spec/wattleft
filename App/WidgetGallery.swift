@@ -49,4 +49,36 @@ struct WidgetGallery: View {
         .overlay(shape.strokeBorder(.white.opacity(0.08), lineWidth: 1).opacity(0))
     }
 }
+
+/// Витрина всех баннеров — для проверки дизайна. Запуск с `-bannerGallery`.
+struct BannerGallery: View {
+    var body: some View {
+        ScrollView {
+            VStack(spacing: 14) {
+                InfoBanner(icon: "bolt.slash", title: "No station connected",
+                           message: "Turn on Open API in the Marstek app and enter the station IP address.",
+                           tone: .neutral) {}
+                InfoBanner(icon: "play.fill", title: "Try the demo",
+                           message: "See how Wattleft works with a simulated station.", tone: .info) {}
+                InfoBanner(icon: "play.fill", title: "Demo mode",
+                           message: "The data isn’t real. Tap to connect your own station.", tone: .info) {}
+                InfoBanner(icon: "wifi.exclamationmark", title: "Station isn’t responding",
+                           message: Text(MarstekError.timeout.localizedDescription), tone: .error) {}
+                InfoBanner(icon: "battery.25percent", title: "Almost at reserve",
+                           message: Text("About \(Fmt.duration(2_400)) left at the current load. Turn off what you don’t need."),
+                           tone: .warning)
+                InfoBanner(icon: "bolt.fill", title: "Power is back",
+                           message: Text("Charging from the grid, full in \(Fmt.duration(9_000))."), tone: .success)
+                InfoBanner(icon: "bell.slash", title: "Notifications are off",
+                           message: "You won’t know when power is back. Turn them on in Settings → Wattleft.",
+                           tone: .warning) {}
+                InfoBanner(icon: "lock.iphone", title: "Lock Screen timer is off",
+                           message: Text("Live Activities are off: Settings → Wattleft → Live Activities."), tone: .warning) {}
+            }
+            .padding(.horizontal, 16)
+            .padding(.vertical, 60)
+        }
+        .background(Color(.systemGroupedBackground).ignoresSafeArea())
+    }
+}
 #endif

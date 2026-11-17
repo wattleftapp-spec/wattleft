@@ -1,6 +1,26 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        }
+      }
+    },
+    "\n" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "\n"
+          }
+        }
+      }
+    },
     " min" : {
       "comment" : "Minutes unit after a big number",
       "localizations" : {
@@ -364,6 +384,26 @@
         }
       }
     },
+    "About %@ left at the current load. Turn off what you don’t need." : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "За поточного навантаження лишилося близько %@. Вимкніть зайве."
+          }
+        }
+      }
+    },
+    "Almost at reserve" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Майже до резерву"
+          }
+        }
+      }
+    },
     "Appliance" : {
       "localizations" : {
         "uk" : {
@@ -514,6 +554,16 @@
         }
       }
     },
+    "Charging from the grid, full in %@." : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Заряджається від мережі, повна через %@."
+          }
+        }
+      }
+    },
     "Check connection" : {
       "localizations" : {
         "uk" : {
@@ -545,6 +595,7 @@
       }
     },
     "Connect" : {
+      "extractionState" : "stale",
       "localizations" : {
         "uk" : {
           "stringUnit" : {
@@ -685,6 +736,7 @@
       }
     },
     "Demo mode — not real data" : {
+      "extractionState" : "stale",
       "localizations" : {
         "uk" : {
           "stringUnit" : {
@@ -969,6 +1021,16 @@
         }
       }
     },
+    "Last data %@ ago." : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Останні дані %@ тому."
+          }
+        }
+      }
+    },
     "Lasts" : {
       "comment" : "Live Activity title above the countdown",
       "localizations" : {
@@ -1051,6 +1113,16 @@
         }
       }
     },
+    "Lock Screen timer is off" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Таймер на заблокованому екрані вимкнено"
+          }
+        }
+      }
+    },
     "Look for a name like VenusE-… in the device list." : {
       "localizations" : {
         "uk" : {
@@ -1118,6 +1190,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Сповіщення"
+          }
+        }
+      }
+    },
+    "Notifications are off" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Сповіщення вимкнено"
           }
         }
       }
@@ -1283,6 +1365,16 @@
         }
       }
     },
+    "See how Wattleft works with a simulated station." : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Подивіться, як працює Wattleft, на імітації станції."
+          }
+        }
+      }
+    },
     "Selected" : {
       "localizations" : {
         "uk" : {
@@ -1329,6 +1421,26 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Станція"
+          }
+        }
+      }
+    },
+    "Station isn’t responding" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Станція не відповідає"
+          }
+        }
+      }
+    },
+    "The data isn’t real. Tap to connect your own station." : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Дані не справжні. Торкніться, щоб підключити свою станцію."
           }
         }
       }
@@ -1435,6 +1547,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "завтра %@"
+          }
+        }
+      }
+    },
+    "Try the demo" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Спробуйте демо"
           }
         }
       }
@@ -1605,6 +1727,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Підходять Venus E, C, A і D. Якщо пункту немає — оновіть прошивку станції в застосунку Marstek."
+          }
+        }
+      }
+    },
+    "You won’t know when power is back. Turn them on in Settings → Wattleft." : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ви не дізнаєтеся, коли дадуть світло. Увімкніть їх у Параметрах → Wattleft."
           }
         }
       }

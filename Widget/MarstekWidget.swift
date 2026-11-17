@@ -116,7 +116,7 @@ struct MarstekWidgetView: View {
             } else {
                 switch family {
                 case .systemMedium:
-                    MediumCard(content: entry.cardContent)
+                    WidgetCard(content: entry.cardContent)
                 case .accessoryCircular:
                     Gauge(value: entry.socPercent, in: 0...100) {
                         Image(systemName: "bolt.fill")
@@ -138,7 +138,7 @@ struct MarstekWidgetView: View {
                         StatusLine(entry: entry, short: true)
                     }
                 default:
-                    SmallCard(content: entry.cardContent)
+                    WidgetCard(content: entry.cardContent)
                 }
             }
         }

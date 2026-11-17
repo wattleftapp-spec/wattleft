@@ -52,7 +52,7 @@ struct WidgetGallery: View {
     private func card(_ c: WidgetContent, size: CGSize) -> some View {
         let shape = RoundedRectangle(cornerRadius: 24, style: .continuous)
         Group {
-            if size.width > size.height { MediumCard(content: c) } else { SmallCard(content: c) }
+            WidgetCard(content: c)
         }
         .padding(16)
         .frame(width: size.width, height: size.height)

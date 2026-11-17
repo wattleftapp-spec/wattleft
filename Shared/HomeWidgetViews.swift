@@ -1,13 +1,11 @@
 import SwiftUI
 import WidgetKit
 
-// Виджеты домашнего экрана (светлая и тёмная тема): ровная минималистичная карточка,
-// шапка с иконкой, подпись, крупное значение и полоса со штрихами на пустой части.
+// Виджеты домашнего экрана (светлая и тёмная тема): ровная минималистичная карточка —
+// подпись, крупное значение, полоса со штрихами на пустой части и строка с процентом.
 
 /// Что показывать в карточке — общее для маленького и среднего размера.
 struct WidgetContent {
-    let icon: String
-    let title: String
     let label: String
     let value: String
     /// Длительность часами и минутами — рисуется с мелкими единицами («10ч 47м»).
@@ -23,13 +21,13 @@ struct WidgetContent {
 
         switch e?.mode {
         case .charging?:
-            icon = "bolt.fill"; title = String(localized: "Charging"); label = String(localized: "Until full")
+            label = String(localized: "Until full")
             value = Self.clock(e?.duration); duration = Self.split(e?.duration)
         case .discharging?:
-            icon = "bolt.batteryblock.fill"; title = String(localized: "Discharging"); label = String(localized: "Time left")
+            label = String(localized: "Time left")
             value = Self.clock(e?.duration); duration = Self.split(e?.duration)
         default:
-            icon = "pause.fill"; title = String(localized: "Idle"); label = String(localized: "Charge")
+            label = String(localized: "Charge")
             value = "\(Int(entrySoc.rounded()))%"; duration = nil
         }
 
@@ -128,18 +126,26 @@ struct TickBar: View {
     }
 }
 
-/// «10ч 47м»: цифры крупно, единицы мельче и приглушённее — не путается со временем на часах.
+/// Размеры шрифтов — как у виджета «Календарь»: короткая подпись цветом сверху,
+/// крупное число (жирное, скруглённое — как процент на главном экране) и мелкая вторичная строка внизу.
+enum WidgetType {
+    static let label = Font.system(size: 12, weight: .semibold)
+    static let value: CGFloat = 40
+    static let footnote = Font.system(size: 13)
+}
+
+/// «10ч 47м»: цифры крупно, единицы вдвое мельче и приглушённее — не путается со временем на часах.
 struct BigValue: View {
     let content: WidgetContent
-    let size: CGFloat
+    var size: CGFloat = WidgetType.value
     @Environment(\.colorScheme) private var scheme
 
     var body: some View {
         Group {
             if let d = content.duration {
                 let unitColor = Ink(scheme: scheme).unit
-                let unit = Font.system(size: size * 0.5, weight: .semibold, design: .rounded)
-                let num = Font.system(size: size, weight: .semibold, design: .rounded)
+                let unit = Font.system(size: size * 0.5, weight: .bold, design: .rounded)
+                let num = Font.system(size: size, weight: .bold, design: .rounded)
                 if d.h > 0 {
                     Text("\(d.h)").font(num)
                         + Text("h ", comment: "Hours unit after a big number").font(unit).foregroundStyle(unitColor)
@@ -151,7 +157,7 @@ struct BigValue: View {
                 }
             } else {
                 Text(content.value)
-                    .font(.system(size: size, weight: .semibold, design: .rounded))
+                    .font(.system(size: size, weight: .bold, design: .rounded))
             }
         }
         .monospacedDigit()
@@ -163,89 +169,42 @@ struct BigValue: View {
     }
 }
 
-private struct Header: View {
+/// Карточка виджета — одна для малого и среднего размера: подпись, время, полоса и строка
+/// «77 % · до 21:40». Без иконок и заголовков: цвет подписи и полосы уже говорит, заряд это или разряд.
+struct WidgetCard: View {
     let content: WidgetContent
-    var font: Font = .subheadline
     @Environment(\.colorScheme) private var scheme
 
-    var body: some View {
-        let ink = Ink(scheme: scheme)
-        HStack(spacing: 6) {
-            Image(systemName: content.icon)
-                .foregroundStyle(ink.icon(content.colors(scheme)))
-                .widgetAccentable()
-            Text(content.title)
-                .lineLimit(1)
-            Spacer(minLength: 4)
-            Text("\(Int(content.soc.rounded()))%")
-                .foregroundStyle(ink.secondary)
-                .monospacedDigit()
-        }
-        .font(font.weight(.semibold))
+    private var footnote: String? {
+        guard content.duration != nil else { return content.footnote }
+        let soc = "\(Int(content.soc.rounded()))%"
+        return content.footnote.map { "\(soc) · \($0)" } ?? soc
     }
-}
-
-struct SmallCard: View {
-    let content: WidgetContent
-    @Environment(\.colorScheme) private var scheme
 
     var body: some View {
         let ink = Ink(scheme: scheme)
         let c = content.colors(scheme)
         VStack(alignment: .leading, spacing: 0) {
-            // Как «Time in Daylight»: иконка и процент сверху, название отдельной строкой.
-            HStack {
-                Image(systemName: content.icon)
-                    .foregroundStyle(ink.icon(c))
-                    .widgetAccentable()
-                Spacer()
-                Text("\(Int(content.soc.rounded()))%")
+            Text(content.label)
+                .font(WidgetType.label)
+                .textCase(.uppercase)
+                .foregroundStyle(ink.label(c))
+                .widgetAccentable()
+            BigValue(content: content)
+            Spacer(minLength: 0)
+            TickBar(fraction: content.soc / 100, color: ink.icon(c), tick: ink.tick)
+            if let footnote {
+                Text(footnote)
+                    .font(WidgetType.footnote)
                     .foregroundStyle(ink.secondary)
                     .monospacedDigit()
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.8)
+                    .padding(.top, 6)
             }
-            .font(.subheadline.weight(.semibold))
-            Text(content.title)
-                .font(.headline)
-                .padding(.top, 6)
-            Spacer(minLength: 0)
-            Text(content.label)
-                .font(.subheadline)
-                .foregroundStyle(ink.label(c))
-            BigValue(content: content, size: 38)
-            TickBar(fraction: content.soc / 100, color: ink.icon(c), tick: ink.tick)
-                .padding(.top, 8)
         }
         .foregroundStyle(ink.primary)
-    }
-}
-
-struct MediumCard: View {
-    let content: WidgetContent
-    @Environment(\.colorScheme) private var scheme
-
-    var body: some View {
-        let ink = Ink(scheme: scheme)
-        let c = content.colors(scheme)
-        VStack(alignment: .leading, spacing: 0) {
-            Header(content: content, font: .headline)
-            Spacer(minLength: 0)
-            Text(content.label)
-                .font(.subheadline)
-                .foregroundStyle(ink.label(c))
-            HStack(alignment: .lastTextBaseline) {
-                BigValue(content: content, size: 42)
-                Spacer()
-                if let footnote = content.footnote {
-                    Label(footnote, systemImage: "arrow.right.circle")
-                        .font(.subheadline.weight(.medium))
-                        .foregroundStyle(ink.secondary)
-                        .monospacedDigit()
-                }
-            }
-            TickBar(fraction: content.soc / 100, color: ink.icon(c), tick: ink.tick)
-                .padding(.top, 10)
-        }
-        .foregroundStyle(ink.primary)
+        .frame(maxWidth: .infinity, alignment: .leading)
     }
 }
 

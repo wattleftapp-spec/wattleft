@@ -158,6 +158,7 @@ let copy: [String: [Copy]] = [
         Copy(caption: "Light and dark", lines: ["Widgets", "for your", "Home Screen"], pill: "Always up to date"),
         Copy(caption: "Load calculator", lines: ["What if", "I boil the", "kettle?"], pill: "2000 W"),
         Copy(caption: "No accounts, no cloud", lines: ["Just", "your", "Wi‑Fi"], pill: "Private"),
+        Copy(caption: "Notification when the grid is back", lines: ["Know when", "the power", "is back"], pill: "Power is back"),
     ],
     "uk": [
         Copy(caption: "Для домашніх станцій Marstek Venus", lines: ["На скільки", "ще", "вистачить?"], pill: "Час, а не %"),
@@ -165,6 +166,7 @@ let copy: [String: [Copy]] = [
         Copy(caption: "Світлі й темні", lines: ["Віджети", "для екрана", "«Початок»"], pill: "Оновлюються самі"),
         Copy(caption: "Калькулятор навантаження", lines: ["А якщо", "увімкнути", "чайник?"], pill: "2000 Вт"),
         Copy(caption: "Без акаунтів і хмари", lines: ["Лише", "ваша", "Wi‑Fi мережа"], pill: "Приватно"),
+        Copy(caption: "Сповіщення, коли з’явиться мережа", lines: ["Дізнайтеся,", "коли дали", "світло"], pill: "Світло дали"),
     ],
 ]
 let t = copy[lang]!
@@ -219,4 +221,12 @@ render("05-private.png") {
     headline(lines(t[4]), centerY: 470, size: 150)
     pill(t[4].pill, symbol: "lock.shield.fill", tint: green, center: CGPoint(x: 930, y: 735), angle: -4)
     phone(image("dash_dark.png"), x: 150, y: 900, width: 1020)
+}
+
+// 6. Свет дали: экран заряда с баннером «Power is back».
+render("06-power-back.png") {
+    caption(t[5].caption, centerY: 200)
+    headline(lines(t[5]), centerY: 470)
+    pill(t[5].pill, symbol: "bolt.fill", tint: green, center: CGPoint(x: 900, y: 735))
+    phone(image("dash_charging.png"), x: 150, y: 900, width: 1020)
 }

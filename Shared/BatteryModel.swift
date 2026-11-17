@@ -275,7 +275,12 @@ enum DemoStation {
         let shared = SharedStore.defaults.double(forKey: "demoSoc")
         let target = shared > 0 ? shared : UserDefaults.standard.double(forKey: "demoSoc")
         guard target > 20, target < 95 else { return 0 }
-        let want = (95 - target) / 75 * dischargeSpan
+        // `demoCharging` — ставим в фазу заряда (для скриншота «Свет дали»).
+        let charging = SharedStore.defaults.bool(forKey: "demoCharging")
+            || UserDefaults.standard.bool(forKey: "demoCharging")
+        let want = charging
+            ? dischargeSpan + (target - 20) / 75 * (cycle - dischargeSpan)
+            : (95 - target) / 75 * dischargeSpan
         let have = Date().timeIntervalSince1970.truncatingRemainder(dividingBy: cycle)
         return want - have
         #else

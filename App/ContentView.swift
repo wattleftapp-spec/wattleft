@@ -96,16 +96,13 @@ struct ContentView: View {
 
     private var list: some View {
         List {
-            if !Self.hideDemoBanner {
-                let items = banners
-                if !items.isEmpty {
-                    Section {
-                        VStack(spacing: 14) {
-                            ForEach(items) { $0.view }
-                        }
+            if !banners.isEmpty {
+                Section {
+                    VStack(spacing: 14) {
+                        ForEach(banners) { $0.view }
                     }
-                    .bannerRow()
                 }
+                .bannerRow()
             }
 
             if let s = model.snapshot, let e = model.estimate {
@@ -207,7 +204,7 @@ struct ContentView: View {
                 message: Text(err), tone: .warning) { openSystemSettings() }))
         }
 
-        if settings.demoMode {
+        if settings.demoMode && !Self.hideDemoBanner {
             items.append(.init(id: "demo", view: InfoBanner(
                 icon: "play.fill", title: "Demo mode",
                 message: "The data isn’t real. Tap to connect your own station.",

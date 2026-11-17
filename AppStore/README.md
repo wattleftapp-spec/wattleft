@@ -22,6 +22,7 @@ Tools/sim_shots.sh shot <папка>/dash.png
 | `dash.png` | главный экран, светлая тема (`app light -hideDemoBanner`) |
 | `dash_dark.png` | главный экран, тёмная тема (`app dark -hideDemoBanner`) |
 | `menu.png` | прокрутка до калькулятора, открыто меню «Appliance» |
+| `dash_charging.png` | главный экран в фазе заряда с баннером «Power is back»: `defaults write <group prefs> demoSoc -float 46`, `demoCharging -bool true`, `gridOnline -bool true` (чтобы не всплыло системное уведомление) |
 | `lock.png` | экран блокировки с Live Activity (кнопка блокировки дважды) |
 | `wg_light.png`, `wg_dark.png` | витрина виджетов (`app light -widgetGallery`, `app dark -widgetGallery`) |
 

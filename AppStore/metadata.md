@@ -184,5 +184,6 @@ The app requests Local Network permission only to reach the user's station. No a
 | 3 | `03-widgets.png` | Widgets for your Home Screen | Віджети для екрана «Початок» |
 | 4 | `04-calculator.png` | What if I boil the kettle? | А якщо увімкнути чайник? |
 | 5 | `05-private.png` | Just your Wi‑Fi | Лише ваша Wi‑Fi мережа |
+| 6 | `06-power-back.png` | Know when the power is back | Дізнайтеся, коли дали світло |
 
 Пересобрать: см. `AppStore/README.md`.

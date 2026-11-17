@@ -59,7 +59,7 @@ struct ChargeChart: View {
         let cal = Calendar.current
         guard var t = cal.dateInterval(of: .hour, for: d.lowerBound)?.end else { return [] }
         var ticks: [Date] = []
-        let margin = span * 0.12
+        let margin = span * 0.2  // «8:00 PM» шире «20:00» — оставляем место у правого края
         while t < d.upperBound {
             let hour = cal.component(.hour, from: t)
             if Double(hour).truncatingRemainder(dividingBy: step) == 0,

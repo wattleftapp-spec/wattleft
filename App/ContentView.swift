@@ -1,7 +1,8 @@
 import SwiftUI
+import UserNotifications
 
 struct ContentView: View {
-    /// Для маркетинговых скриншотов: `-hideDemoBanner` (только отладочная сборка).
+    /// Режим съёмки скриншотов: `-hideDemoBanner` прячет баннер демо и не даёт остальным скрываться (только отладка).
     #if DEBUG
     static let hideDemoBanner = CommandLine.arguments.contains("-hideDemoBanner")
     #else
@@ -86,6 +87,8 @@ struct ContentView: View {
             }
         }
         .onAppear {
+            // Режим съёмки скриншотов: убрать старые уведомления с экрана блокировки.
+            if Self.hideDemoBanner { UNUserNotificationCenter.current().removeAllDeliveredNotifications() }
             if !onboardingDone { showOnboarding = true }
             // Для уже настроенных пользователей: спросить разрешение один раз (iOS запомнит ответ).
             if onboardingDone && model.settings.isConfigured && model.settings.notifyGridReturn {
@@ -113,7 +116,8 @@ struct ContentView: View {
                             .bannerLeaving(leavingBanners.contains(item.id))
                             .bannerRow(bottom: item.id == shown.last?.id ? 0 : 14)
                             .task(id: item.id) {
-                                guard item.autoDismiss else { return }
+                                // В режиме съёмки скриншотов (-hideDemoBanner) баннеры не прячутся.
+                                guard item.autoDismiss, !Self.hideDemoBanner else { return }
                                 try? await Task.sleep(for: .seconds(3))
                                 guard !Task.isCancelled else { return }
                                 await dismissBanner(item.id)

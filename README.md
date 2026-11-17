@@ -36,3 +36,9 @@
 python3 Tools/mock_venus.py
 ```
 В симуляторе укажите IP `127.0.0.1`, порт `30000`.
+
+## Сайт
+- Поддержка: https://wattleftapp-spec.github.io/wattleft/
+- Политика конфиденциальности: https://wattleftapp-spec.github.io/wattleft/privacy.html
+
+Страницы лежат в `docs/` и публикуются через GitHub Pages (ветка `release/1.0`, папка `/docs`).

@@ -13,8 +13,8 @@
 | Возрастной рейтинг | 4+ (на все вопросы анкеты — «Нет») |
 | Цена | Бесплатно |
 | Copyright | `2026 Wattleft` |
-| Support URL | `https://<ник>.github.io/wattleft/` |
-| Privacy Policy URL | `https://<ник>.github.io/wattleft/privacy.html` |
+| Support URL | `https://wattleftapp-spec.github.io/wattleft/` |
+| Privacy Policy URL | `https://wattleftapp-spec.github.io/wattleft/privacy.html` |
 | App Privacy | Data Not Collected |
 | Шифрование | Не используется (в Info.plist уже `ITSAppUsesNonExemptEncryption = NO`) |
 

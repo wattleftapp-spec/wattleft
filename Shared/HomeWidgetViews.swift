@@ -95,8 +95,6 @@ struct TickBar: View {
     let fraction: Double
     let color: Color
     var tick: Color = .white.opacity(0.22)
-    /// Направление блика: при зарядке бежит вправо, при разрядке — влево.
-    var rising = false
 
     var body: some View {
         GeometryReader { g in
@@ -121,40 +119,12 @@ struct TickBar: View {
                 }
                 Capsule()
                     .fill(color)
-                    .overlay {
-                        // Блик-«волна» по заливке: появляется заново на каждой записи виджета
-                        // (новый id) и пробегает от одного края к другому.
-                        GeometryReader { b in
-                            Capsule()
-                                .fill(.white.opacity(0.55))
-                                .frame(width: max(h * 3, b.size.width * 0.35))
-                                .blur(radius: 3)
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                                .transition(Sweep(width: b.size.width, rising: rising))
-                                .id(fraction)
-                        }
-                    }
-                    .clipShape(Capsule())
                     .frame(width: fill)
                     .widgetAccentable()
             }
             .animation(.smooth(duration: 0.9), value: fraction)
         }
         .frame(height: 8)
-    }
-}
-
-/// Переход блика: вставка — пробег от одного края полосы за другой, в покое блик спрятан за краем.
-private struct Sweep: Transition {
-    let width: CGFloat
-    let rising: Bool
-
-    func body(content: Content, phase: TransitionPhase) -> some View {
-        let start: CGFloat = rising ? -width * 0.5 : width * 1.2
-        let end: CGFloat = rising ? width * 1.2 : -width * 0.5
-        content
-            .offset(x: phase == .willAppear ? start : end)
-            .animation(.easeInOut(duration: 1.1), value: phase)
     }
 }
 
@@ -242,7 +212,7 @@ struct SmallCard: View {
                 .font(.subheadline)
                 .foregroundStyle(ink.label(c))
             BigValue(content: content, size: 38)
-            TickBar(fraction: content.soc / 100, color: ink.icon(c), tick: ink.tick, rising: content.mode == .charging)
+            TickBar(fraction: content.soc / 100, color: ink.icon(c), tick: ink.tick)
                 .padding(.top, 8)
         }
         .foregroundStyle(ink.primary)
@@ -272,7 +242,7 @@ struct MediumCard: View {
                         .monospacedDigit()
                 }
             }
-            TickBar(fraction: content.soc / 100, color: ink.icon(c), tick: ink.tick, rising: content.mode == .charging)
+            TickBar(fraction: content.soc / 100, color: ink.icon(c), tick: ink.tick)
                 .padding(.top, 10)
         }
         .foregroundStyle(ink.primary)
